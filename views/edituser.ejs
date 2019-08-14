@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>edituser</title>
+</head>
+<body>
+    <h1>rediger <%= user.username %></h1>
+    <form  method="post">
+        <fieldset>
+                <label for="username">brugernavn</label>
+                <input type="text" name="username" value="<%= user.username %>">
+        </fieldset>
+        <fieldset>
+            <label for="email">email</label>
+            <input type="email" name="email" id="email" value="<%= user.email %>">
+        </fieldset>
+        <button type="submit">gem</button>
+    </form>
+</body>
+</html>

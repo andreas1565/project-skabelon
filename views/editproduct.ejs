@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>edit product</title>
+</head>
+<body>
+        <form  method="post">
+                <fieldset>
+                        <label for="name">skriv en name på dit product</label>
+                        <input type="text" name="name" value="<%= product.name %>">
+                </fieldset>
+                <fieldset>
+                    <label for="description">beskrivsel</label>
+                        <textarea name="description">
+                            <%= product.description %>
+                        </textarea>
+                </fieldset>
+                <fieldset>
+                    <label for="price">pris</label>
+                    <input type="number" name="price" value="<%=product.price %>">
+                </fieldset>
+                <fieldset>
+                    <label for="weight">vægt</label>
+                    <input type="number" name="weight" value="<%= product.weight %>">
+                </fieldset>
+                <fieldset>
+                    <label for="amount">antal</label>
+                    <input type="number" name="amount" value="<%=product.amount %>">
+                </fieldset>
+                <fieldset>
+                    <label for="categories">kategorie</label>
+                    <select name="categories" style="display:block">
+                            <%  categories.forEach( categorie => { %>
+                            <option value="<%= categorie.id %>" <%= (product.fk_categories==categorie.id ? 'selected' : '' ) %>>
+                                <%=   categorie.name %>
+                            </option>
+                            <% }); %>
+                        </select>
+                </fieldset>
+                <button type="submit">opdater et product</button>
+            </form>
+</body>
+</html>
