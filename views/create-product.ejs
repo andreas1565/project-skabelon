@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>test</title>
+</head>
+<body>
+    <form  method="post">
+        <fieldset>
+                <label for="name">skriv en name på dit product</label>
+                <input type="text" name="name">
+        </fieldset>
+        <fieldset>
+            <label for="description">beskrivsel</label>
+                <textarea name="description"></textarea>
+        </fieldset>
+        <fieldset>
+            <label for="price">pris</label>
+            <input type="number" name="price">
+        </fieldset>
+        <fieldset>
+            <label for="weight">vægt</label>
+            <input type="number" name="weight">
+        </fieldset>
+        <fieldset>
+            <label for="amount">antal</label>
+            <input type="number" name="amount">
+        </fieldset>
+        <fieldset>
+            <label for="categories">kategorie</label>
+            <select name="categories" style="display:block">
+                    <% categories.forEach(categorie => { %>
+                    <option value="0" disabled selected hidden>vælg et menu kategorie</option>    
+                    <option value="<%= categorie.id %>">
+                        <%=  categorie.name %>
+                    </option>
+                    <% }); %>
+            </select>
+        </fieldset>
+        <button type="submit">oprate et products</button>
+    </form>
+</body>
+</html>
