@@ -7,6 +7,47 @@ exports.getcreateform = async function(req, res, next){
 }
 
 exports.createproducts = async function(req, res, next){
+    let success = true;
+    let errorMessage;
+    if (!req.fields.categories || isNaN(req.fields.categories) || req.fields.categories == "0") {
+        success = false;
+        errorMessage ='vælg en kategorie';
+    }
+    if(req.fields.amount === ""){
+        errorMessage = "feltet antal er tom";
+        success = false;
+    }else if(isNaN(req.fields.amount)){
+        errorMessage = 'du kan kun skrive tal i antal feltet';
+        success  = false;
+    }
+    if(req.fields.weight === ""){
+        errorMessage = "feltet vægt er tom";
+        success = false;
+    }else if(isNaN(req.fields.weight)){
+        errorMessage = 'du kan kun skrive tal i vægt feltet';
+        success  = false;
+    }
+    if(req.fields.price === ""){
+        errorMessage = "feltet prise er tom";
+        success = false;
+    }else if(isNaN(req.fields.price)){
+        errorMessage = 'du kan kun skrive tal i postion feltet';
+        success  = false;
+    }
+    if(req.fields.description === ""){
+        errorMessage = "feltet beskrivelse er tom";
+        success = false;
+    }
+    if(req.fields.name === ""){
+        errorMessage = "feltet navn er tom";
+        success = false;
+    }
+    if(success !== true){
+        const categoriesql = `SELECT id,  name FROM categories`;
+        const [rows, fieilds] = await db.query(categoriesql);
+        res.render("create-product",  {errorMessage, ...req.fields,  categories: rows});
+        return;
+    }
     try {
         const productssql =  `INSERT INTO products SET name = :name, description = :description, price = :price, weight = :weight, amount = :amount, fk_categories = :categories`; 
        const  products = await db.query(productssql, {
@@ -65,6 +106,50 @@ exports.showproductsform = async function(req, res, next){
 }
 
 exports.editproducts = async  function(req, res, next){
+    let success = true;
+    let errorMessage;
+    if (!req.fields.categories || isNaN(req.fields.categories) || req.fields.categories == "0") {
+        success = false;
+        errorMessage ='vælg en kategorie';
+    }
+    if(req.fields.amount === ""){
+        errorMessage = "feltet antal er tom";
+        success = false;
+    }else if(isNaN(req.fields.amount)){
+        errorMessage = 'du kan kun skrive tal i antal feltet';
+        success  = false;
+    }
+    if(req.fields.weight === ""){
+        errorMessage = "feltet vægt er tom";
+        success = false;
+    }else if(isNaN(req.fields.weight)){
+        errorMessage = 'du kan kun skrive tal i vægt feltet';
+        success  = false;
+    }
+    if(req.fields.price === ""){
+        errorMessage = "feltet prise er tom";
+        success = false;
+    }else if(isNaN(req.fields.price)){
+        errorMessage = 'du kan kun skrive tal i postion feltet';
+        success  = false;
+    }
+    if(req.fields.description === ""){
+        errorMessage = "feltet beskrivelse er tom";
+        success = false;
+    }
+    if(req.fields.name === ""){
+        errorMessage = "feltet navn er tom";
+        success = false;
+    }
+    if(success !== true){
+        const productssql =  `SELECT products.id, products.name, products.description, products.price, products.weight, products.amount, fk_categories FROM test3.products
+        WHERE id = :id`;
+        const categoriesql = `SELECT id,name FROM test3.categories`
+        const [rows, fieilds] = await db.query(productssql, { id: req.params.id });
+        const [rows2, fieilds2] = await db.query(categoriesql);
+        res.render("editproduct",  {errorMessage,  product: rows[0], categories: rows2});
+        return;
+    }
     try {
         const productssql = `UPDATE products SET name = :name, description = :description, price = :price,  weight = :weight, amount = :amount, fk_categories = :categories  WHERE id = :id `;
         const  products = await db.query(productssql, {
