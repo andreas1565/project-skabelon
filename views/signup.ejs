@@ -10,17 +10,24 @@
     <form  method="post">
         <div>
                 <label for="email">email</label>
-                <input type="email" name="email" id="email"> 
+                <input type="email" name="email" id="email" value="<%= (typeof email != 'undefined')? email: '' %>"> 
         </div>
         <div>
             <label for="username">brugernavn</label>
-            <input type="text" name="username" id="username">
+            <input type="text" name="username" id="username" value="<%= (typeof username != 'undefined')? username: '' %>">
         </div>
         <div>
-            <label for="password">password</label>
-            <input type="password" name="password" id="password">
+            <label for="passphrase">adgangskode</label>
+            <input type="password" name="passphrase" id="passphrase">
+        </div>
+        <div>
+            <label for="retenterpassword">gentag adgangskode</label>
+            <input type="password" name="retenterpassphrase" id="retenterpassphrase">  
         </div>
         <button type="submit">oprate</button>
     </form>
+    <p>
+        <%= (typeof  errorMessage != "undefined") ?  errorMessage : '' %>
+    </p>
 </body>
 </html>

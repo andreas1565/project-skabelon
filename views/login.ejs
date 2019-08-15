@@ -18,5 +18,8 @@
         </fieldset>
         <button type="submit">log in</button>
     </form>
+    <p>
+        <%= (typeof  errorMessage != "undefined") ?  errorMessage : '' %>
+    </p>
 </body>
 </html>

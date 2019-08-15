@@ -5,6 +5,20 @@ exports.getcategorieform = function(req , res , next) {
 
 exports.createcategorie = async function(req, res ,next) {
     // backend validating 
+    let success = true;
+    let errorMessage;
+    if (req.fields.name === "") {
+        success = false;
+        errorMessage ='feltet navn er tom';
+    }
+    if(req.fields.description === ""){
+        errorMessage = "feltet beskrivesel er tom";
+        success = false;
+    }
+    if(success !== true){
+        res.render("create-categorie",  {errorMessage, ...req.fields});
+        return;
+    }
    try {
        const categoriesql = `INSERT INTO categories SET name = :name, description = :description`;
        const categorie = await db.query(categoriesql, {
@@ -45,6 +59,20 @@ exports.showcategorieform = async function(req, res, next){
 }
 
 exports.editcategorie = async function(req, res, next){
+    if (req.fields.name === "") {
+        success = false;
+        errorMessage ='feltet navn er tom';
+    }
+    if(req.fields.description === ""){
+        errorMessage = "feltet beskrivesel er tom";
+        success = false;
+    }
+    if(success !== true){
+        const categoriesql = `SELECT id, name, description FROM categories WHERE id = :id`;
+        const [rows, fieilds] = await db.query(categoriesql, { id: req.params.id});
+        res.render("editcategorie",  {errorMessage, categorie: rows[0]});
+        return;
+    }
     try {
         const categoriesql = `UPDATE categories SET name = :name, description = :description  WHERE id = :id `;
         const  categorie = await db.query(categoriesql, {
