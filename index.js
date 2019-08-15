@@ -33,7 +33,9 @@ require('./routes/kontakt.route.js')(app);
 require('./routes/products.route.js')(app);
 require('./routes/categorie.route')(app);
 require('./routes/singup.route')(app);
+require('./routes/login.route')(app);
 require('./routes/user.route')(app);
+require('./routes/profile.route')(app);
 
 
 require('./server/server')(app);

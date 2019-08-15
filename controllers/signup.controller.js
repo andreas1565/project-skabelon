@@ -1,4 +1,5 @@
 const db = require('../config/sql');
+const { hashSync } = require('bcryptjs');
 exports.get = function(req , res , next) {
     res.render('signup');
 };
@@ -9,8 +10,9 @@ exports.post = async function(req, res ,next) {
        const profilesql = `INSERT INTO  profiles SET email = :email`
        const usersql = `INSERT INTO users SET username = :username, passphrase = :password, fk_profile = :fk`;
        const profile = await db.query(profilesql, {email: req.fields.email})
+       const hashpassword = hashSync(req.fields.password, 10)
        const user = await db.query(usersql, {
-        password:  req.fields.password,
+        password:  hashpassword,
         username: req.fields.username,
         fk: profile[0].insertId
        });
