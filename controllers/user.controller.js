@@ -47,7 +47,11 @@ exports.edituser = async function(req, res, next){
         )`;
         const user = await db.query(usersql, { id: req.params.id, username: req.fields.username });
         const profile = await db.query(profilesql, { id: req.params.id, email: req.fields.email });
-        res.redirect("/edituser/" + req.params.id);
+
+        // req.route.path = //  /edituser/:id
+
+        const path = req.route.path.replace(':id', '');
+        res.redirect(path  + req.params.id);
     } catch (error) {
         console.log(error);
         res.send('fejl');  
