@@ -1,11 +1,29 @@
 const db = require('../config/sql');
+/**
+ * @module controler/getproductform
+ */
 
+/**
+     * denne fuktion renderer create-product så er oprate product form og looper igenm alle kategoie i en select
+     * @param {Object} req er et object
+     * @param {Function} res er en Function callback
+     * @param {Function} next er en Function callback 
+*/
 exports.getcreateform = async function(req, res, next){
     const categoriesql = `SELECT id,  name FROM categories`;
     const [rows, fieilds] = await db.query(categoriesql);
     res.render('create-product', {categories: rows });
 }
+/**
+ * @module controler/createproducts
+ */
 
+/**
+     * denne fuktion tjeker om felterne er tom og insæter data fra oprate products formen og insæter dem i databasen 
+     * @param {Object} req er et object
+     * @param {Function} res er en Function callback
+     * @param {Function} next er en Function callback og koncekvensen af next er den hopper videre til næste funktion 
+*/
 exports.createproducts = async function(req, res, next){
     let success = true;
     let errorMessage;
@@ -46,6 +64,7 @@ exports.createproducts = async function(req, res, next){
         const categoriesql = `SELECT id,  name FROM categories`;
         const [rows, fieilds] = await db.query(categoriesql);
         res.render("create-product",  {errorMessage, ...req.fields,  categories: rows});
+         // return stopper fuction
         return;
     }
     try {
@@ -62,6 +81,7 @@ exports.createproducts = async function(req, res, next){
     } catch (error) {
         console.log(error);
         if(error.code === 'ER_DUP_ENTRY'){
+             // return stopper fuction
             return res.send("denne bruger eksisterer allerede");
         }
         res.send('fejl');
@@ -71,10 +91,10 @@ exports.createproducts = async function(req, res, next){
  * @module controler/getproducts
  */
 /**
-     * denne fuktion renderer products.ejs med data 
+     * denne fuktion renderer products.ejs med en table med alle data fra products table og INNER join categorie tablen for at de to tabler bliver til en
      * @param {Object} req er et object
      * @param {Function} res er en Function callback
-     * @param {Function} next er en Function callback
+     * @param {Function} next er en Function callback og koncekvensen af next er den hopper videre til næste funktion
 */
 
 exports.getproducts = async function (req, res, next){
@@ -90,7 +110,16 @@ exports.getproducts = async function (req, res, next){
         res.send('fejl'); 
     }
 };
+/**
+ * @module controler/showproductsform
+ */
 
+/**
+     * denne fuktion renderer showproductsform som er en form med den enkelte products med hjælpe fra  req.params.id som er id fra  url og looper igenm alle kategoie i en select
+     * @param {Object} req er et object
+     * @param {Function} res er en Function callback
+     * @param {Function} next er en Function callback og koncekvensen af next er den hopper videre til næste funktion 
+*/
 exports.showproductsform = async function(req, res, next){
     try {
         const productssql =  `SELECT products.id, products.name, products.description, products.price, products.weight, products.amount, fk_categories FROM test3.products
@@ -104,7 +133,16 @@ exports.showproductsform = async function(req, res, next){
         res.send('fejl');
     }
 }
+/**
+ * @module controler/editproducts
+ */
 
+/**
+     * denne fuktion tjeker om felterne er tom og insæter data fra oprate products og insæter dem i databasen som en updatering  med hjælpe fra  req.params.id som er id fra  url  
+     * @param {Object} req er et object
+     * @param {Function} res er en Function callback
+     * @param {Function} next er en Function callback og koncekvensen af next er den hopper videre til næste funktion
+*/
 exports.editproducts = async  function(req, res, next){
     let success = true;
     let errorMessage;
@@ -167,7 +205,16 @@ exports.editproducts = async  function(req, res, next){
         res.send('fejl'); 
     }
 }
+/**
+ * @module controler/deletecategorie
+ */
 
+/**
+     * denne fuktion sletter et products med hjælpe fra  req.params.id som er id fra  url
+     * @param {Object} req er et object
+     * @param {Function} res er en Function callback
+     * @param {Function} next er en Function callback og koncekvensen af next er den hopper videre til næste funktion
+*/
 exports.deleteproducts = async function(req, res, next){
     try {
         const productssql = `DELETE FROM products WHERE id = :id`;

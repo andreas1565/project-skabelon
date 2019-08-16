@@ -7,7 +7,8 @@ module.exports = function(req,  res, next){
     }
     // true
     if(req.session.isloggedin){
-        return next();
+         // return stopper fuction
+        return next(); // er en Function callback og koncekvensen af next er den hopper videre til næste funktion
     }
     res.redirect("/login");
 }

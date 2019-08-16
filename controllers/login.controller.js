@@ -1,9 +1,27 @@
 const db = require('../config/sql');
 const { compareSync } = require('bcryptjs');
+/**
+ * @module controler/getloginform
+ */
+/**
+     * denne fuktion renderer login form
+     * @param {Object} req er et object
+     * @param {Function} res er en Function callback
+     * @param {Function} next er en Function callback og koncekvensen af next er den hopper videre til næste funktion 
+*/
 exports.getloginform = function(req,  res, next){
     res.render('login');
 };
+/**
+ * @module controler/logincheckfunctionality
+ */
 
+/**
+     * denne fuktion tjeker om felterne er tom og hvis det man skriver i form passer med det der står i databaen så kommer man til det hemmligt 
+     * @param {Object} req er et object
+     * @param {Function} res er en Function callback
+     * @param {Function} next er en Function callback og koncekvensen af next er den hopper videre til næste funktion 
+*/
 exports.logincheck = async function(req, res, next){
     let success = true;
     let errorMessage;
@@ -17,6 +35,7 @@ exports.logincheck = async function(req, res, next){
     }
     if(success !== true){
         res.render("login",  {errorMessage});
+         // return stopper fuction
         return;
     }
 

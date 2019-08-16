@@ -1,10 +1,28 @@
 const db = require('../config/sql');
 // Destructuring i sted for at hente hele bcryptjs bibliotek så jeg henter kun den funktion jeg skal bruge som er hashSync
 const { hashSync } = require('bcryptjs');
+/**
+ * @module controler/getsignupformen
+ */
+/**
+     * denne fuktion renderer signup formen
+     * @param {Object} req er et object
+     * @param {Function} res er en Function callback
+     * @param {Function} next er en Function callback og koncekvensen af next er den hopper videre til næste funktion
+*/
 exports.get = function(req , res , next) {
     res.render('signup');
 };
+/**
+ * @module controler/signupfunctionality
+ */
 
+/**
+     * denne fuktion tjeker om felterne er tom og insæter data fra oprate bruger formen og insæter dem i databasen med hash password
+     * @param {Object} req er et object
+     * @param {Function} res er en Function callback
+     * @param {Function} next er en Function callback og koncekvensen af next er den hopper videre til næste funktion
+*/
 exports.post = async function(req, res ,next) {
     // backend validating 
     let success = true;
@@ -27,6 +45,7 @@ exports.post = async function(req, res ,next) {
     }
     if(success !== true){
         res.render("signup",  {errorMessage, ...req.fields});
+         // return stopper fuction
         return;
     }
    try {
@@ -45,6 +64,7 @@ exports.post = async function(req, res ,next) {
    } catch (error) {
        console.log(error);
        if(error.code === 'ER_DUP_ENTRY'){
+            // return stopper fuction
            return res.send("denne bruger eksisterer allerede");
        }
        res.send('fejl');
