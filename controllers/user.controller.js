@@ -1,4 +1,14 @@
 const db = require('../config/sql');
+/**
+ * @module controler/getusers
+ */
+
+/**
+     * denne fuktion renderer getcategorie som er en table af alle data fra user 
+     * @param {Object} req er et object
+     * @param {Function} res er en Function callback
+     * @param {Function} next er en Function callback 
+*/
 exports.getusers = async function(req,res,next){
     try {
         const usersql = `SELECT users.id, users.username, users.passphrase, profiles.email FROM users
@@ -15,7 +25,16 @@ exports.getusers = async function(req,res,next){
         res.send('fejl');
     }
 };
+/**
+ * @module controler/showuserform
+ */
 
+/**
+     * denne fuktion renderershowuserform som er en form med den enkelte user med hjælpe fra  req.params.id som er id fra  url 
+     * @param {Object} req er et object
+     * @param {Function} res er en Function callback
+     * @param {Function} next er en Function callback og koncekvensen af next er den hopper videre til næste funktion 
+*/
 exports.showuserform = async function(req, res, next){
     try {
         const usersql = `SELECT users.id, users.username, profiles.email FROM users
@@ -29,7 +48,16 @@ exports.showuserform = async function(req, res, next){
         res.send('fejl'); 
     }
 };
+/**
+ * @module controler/edituser
+ */
 
+/**
+     *  insæter data fra oprate user og insæter dem i databasen som en updatering  med hjælpe fra  req.params.id som er id fra  url  
+     * @param {Object} req er et object
+     * @param {Function} res er en Function callback
+     * @param {Function} next er en Function callback og koncekvensen af next er den hopper videre til næste funktion 
+*/
 exports.edituser = async function(req, res, next){
     try {
         /*
@@ -57,7 +85,16 @@ exports.edituser = async function(req, res, next){
         res.send('fejl');  
     }
 };
+/**
+ * @module controler/deleteuser
+ */
 
+/**
+     * denne fuktion sletter en user med hjælpe fra  req.params.id som er id fra  url
+     * @param {Object} req er et object
+     * @param {Function} res er en Function callback
+     * @param {Function} next er en Function callback og koncekvensen af next er den hopper videre til næste funktion 
+*/
 exports.deleteuser = async  function(req,res,next) {
     try {
         const usersql = `DELETE FROM profiles WHERE id = (

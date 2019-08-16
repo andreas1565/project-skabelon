@@ -1,7 +1,28 @@
 const db = require('../config/sql');
+/**
+ * @module controler/getcategorieform
+ */
+
+/**
+     * denne fuktion renderer create-categorie så er oprate kategorie form 
+     * @param {Object} req er et object
+     * @param {Function} res er en Function callback
+     * @param {Function} next er en Function callback og koncekvensen af next er den hopper videre til næste funktion
+*/
 exports.getcategorieform = function(req , res , next) {
     res.render('create-categorie');
 };
+
+/**
+ * @module controler/createcategorie
+ */
+
+/**
+     * denne fuktion tjeker om felterne er tom og insæter data fra oprate kategorie formen og insæter dem i databasen
+     * @param {Object} req er et object
+     * @param {Function} res er en Function callback
+     * @param {Function} next er en Function callback og koncekvensen af next er den hopper videre til næste funktion
+*/
 
 exports.createcategorie = async function(req, res ,next) {
     // backend validating 
@@ -17,6 +38,7 @@ exports.createcategorie = async function(req, res ,next) {
     }
     if(success !== true){
         res.render("create-categorie",  {errorMessage, ...req.fields});
+         // return stopper fuction
         return;
     }
    try {
@@ -29,11 +51,23 @@ exports.createcategorie = async function(req, res ,next) {
    } catch (error) {
        console.log(error);
        if(error.code === 'ER_DUP_ENTRY'){
+            // return stopper fuction
            return res.send("denne bruger eksisterer allerede");
        }
        res.send('fejl');
    }
 };
+
+/**
+ * @module controler/getcategorie
+ */
+
+/**
+     * denne fuktion renderer getcategorie som er en table af alle data fra categorie
+     * @param {Object} req er et object
+     * @param {Function} res er en Function callback
+     * @param {Function} nexter en Function callback og koncekvensen af next er den hopper videre til næste funktion 
+*/
 
 exports.getcategorie = async function(req, res, next){
     try {
@@ -46,6 +80,17 @@ exports.getcategorie = async function(req, res, next){
     }
 }
 
+/**
+ * @module controler/showcategorieform
+ */
+
+/**
+     * denne fuktion renderer showcategorieform som er en form med den enkelte kategori med hjælpe fra  req.params.id som er id fra  url 
+     * @param {Object} req er et object
+     * @param {Function} res er en Function callback
+     * @param {Function} next er en Function callback og koncekvensen af next er den hopper videre til næste funktion 
+*/
+
 exports.showcategorieform = async function(req, res, next){
     try {
         const categoriesql = `SELECT id, name, description FROM categories WHERE id = :id`;
@@ -57,6 +102,17 @@ exports.showcategorieform = async function(req, res, next){
         res.send('fejl'); 
     }
 }
+
+/**
+ * @module controler/editcategorie
+ */
+
+/**
+     * denne fuktion tjeker om felterne er tom og insæter data fra oprate kategorie og insæter dem i databasen som en updatering  med hjælpe fra  req.params.id som er id fra  url  
+     * @param {Object} req er et object
+     * @param {Function} res er en Function callback
+     * @param {Function} next er en Function callback og koncekvensen af next er den hopper videre til næste funktion 
+*/
 
 exports.editcategorie = async function(req, res, next){
     if (req.fields.name === "") {
@@ -87,7 +143,16 @@ exports.editcategorie = async function(req, res, next){
         res.send('fejl'); 
     }
 }
+/**
+ * @module controler/deletecategorie
+ */
 
+/**
+     * denne fuktion sletter en kategoire med hjælpe fra  req.params.id som er id fra  url
+     * @param {Object} req er et object
+     * @param {Function} res er en Function callback
+     * @param {Function} next er en Function callback og koncekvensen af next er den hopper videre til næste funktion
+*/
 exports.deletecategorie = async function(req, res, next){
     try {
         const categoriesql = `DELETE FROM categories WHERE id = :id`;
