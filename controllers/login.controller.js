@@ -44,7 +44,7 @@ exports.logincheck = async function(req, res, next){
         const [rows] =  await db.query(usersql, {
             username: req.fields.username
         });
-
+        
         
         if(rows.length !== 1){
             res.redirect("/login");
@@ -57,8 +57,17 @@ exports.logincheck = async function(req, res, next){
         req.session.isloggedin = true;
         req.session.user = rows[0].id;
         res.redirect(`/profile/${rows[0].id}`);
+        req.app.locals.isloggedin = true;
+       
     } catch (error) {
         console.log(error);
         res.send('felj');
     }
+}
+
+exports.logout = function(req, res, next){
+    delete req.session.isloggedin;
+    delete req.session.user;
+    delete  req.app.locals.isloggedin;
+    res.redirect('/login');
 }

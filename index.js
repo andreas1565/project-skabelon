@@ -6,11 +6,11 @@ const express = require('express');
 // her eksikverer jeg funktionen express så man kan bruge express
 const app = express();
 // vi configurerer så express ved hvad en session er og hvad det statiske mappe er og hvad parser, views er
-require('./config/public')(app,  express);
 require('./config/sesison')(app);
+require('./config/public')(app,  express);
 require('./config/parser')(app);
+require('./config/locals')(app);
 require('./config/views')(app);
-
 //hvis du ville require() et object med en function inde i så kan du requrie og derefter skive stine til den route file og skive navn på fuction og sender app med som parameteret for at kunne bruge app.get for example
 //require('./routes/test.route.js').get(app);
 // function der  bliver importert
