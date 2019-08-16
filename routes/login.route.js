@@ -1,4 +1,4 @@
-const { getloginform, logincheck } = require('../controllers/login.controller');
+const { getloginform, logincheck, logout } = require('../controllers/login.controller');
 module.exports = function(app){
   /**
      * denne fuktion håndter get metoden for endpointet /login 
@@ -10,4 +10,6 @@ module.exports = function(app){
      * @param {Function} app express objektet
      */
     app.post('/login', logincheck);
+
+    app.get('/logout', logout);
 }
