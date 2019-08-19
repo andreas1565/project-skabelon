@@ -1,15 +1,6 @@
 <% include partials/head.ejs %>
     <div class="flex">
-            <nav>
-                    <li><a class="fas fa-bars" id="burgermenu" href="#"></a></li>
-                    <ul>
-                        <li><a class="fas fa-times" id="closebtn" href="#"></a></li> 
-                        <li><a href="/dashboard">dashborad</a></li>
-                        <li><a href="/products">products</a></li>
-                        <li><a href="/categorie">categories</a></li>
-                        <li><a href="/users">users</a></li>
-                    </ul>
-            </nav>
+            <% include partials/menu.ejs %> 
             <main>
                 <section>
                         <a href="/createproducts" class="button">oprate et product</a>

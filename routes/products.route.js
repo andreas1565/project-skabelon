@@ -18,7 +18,7 @@ module.exports =  function(app){
      */
     app.get('/createproducts',isauthorized, isadmin,  getcreateform);
     /**
-     * denne funktion håndterer post metoden for endpointet /createcategorie
+     * denne funktion håndterer post metoden for endpointet /createproducts
      * @param {Function} app express objektet
      */
     app.post('/createproducts', isauthorized, isadmin, createproducts);

@@ -36,7 +36,8 @@ require('./routes/singup.route')(app);
 require('./routes/login.route')(app);
 require('./routes/user.route')(app);
 require('./routes/profile.route')(app);
-require('.//routes/dashboard.route')(app);
+require('./routes/dashboard.route')(app);
+require('./routes/userroles')(app);
 
 
 require('./server/server')(app);

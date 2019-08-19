@@ -107,3 +107,139 @@ exports.deleteuser = async  function(req,res,next) {
         res.send('fejl');  
     }
 }
+
+/**
+ * @module controler/getusersrolesform
+ */
+
+/**
+     * denne fuktion renderer create-usersroles så er oprate brugerrole form 
+     * @param {Object} req er et object
+     * @param {Function} res er en Function callback
+     * @param {Function} next er en Function callback og koncekvensen af next er den hopper videre til næste funktion
+*/
+exports.getusersrolesform = function(req , res , next) {
+    res.render('dashboard/create-usersroles');
+};
+
+/**
+ * @module controler/createusersroles
+ */
+
+/**
+     * denne fuktion tjeker om felterne er tom og insæter data fra oprate kategorie formen og insæter dem i databasen
+     * @param {Object} req er et object
+     * @param {Function} res er en Function callback
+     * @param {Function} next er en Function callback og koncekvensen af next er den hopper videre til næste funktion
+*/
+
+exports.createusersroles = async function(req, res ,next) {
+   try {
+       const usersql = `INSERT INTO roles SET name = :name, level = :level`;
+       const user = await db.query(usersql, {
+        name:  req.fields.name,
+        level: req.fields.level
+       });
+       res.redirect('/userroles');
+   } catch (error) {
+       console.log(error);
+       if(error.code === 'ER_DUP_ENTRY'){
+            // return stopper fuction
+           return res.send("denne bruger eksisterer allerede");
+       }
+       res.send('fejl');
+   }
+};
+
+/**
+ * @module controler/getusersroles
+ */
+
+/**
+     * denne fuktion renderer getcategorie som er en table af alle data fra user 
+     * @param {Object} req er et object
+     * @param {Function} res er en Function callback
+     * @param {Function} next er en Function callback 
+*/
+exports.getusersroles = async function(req,res,next){
+    try {
+        const usersql = `SELECT id, name, level FROM roles`; 
+        // Destructuring i sted for const users  res.render('users', { users: users[0] });
+        const [rows,  fieilds] = await db.query(usersql);
+       // console.log(rows);
+       // console.log(fieilds);
+        res.render('dashboard/usersroles', { usersroles: rows });
+        res.end();
+    } catch (error) {
+        console.log(error);
+        res.send('fejl');
+    }
+};
+
+/**
+ * @module controler/showuserroleform
+ */
+
+/**
+     * denne fuktion renderer showuserrolesform som er en form med den enkelte user med hjælpe fra  req.params.id som er id fra  url 
+     * @param {Object} req er et object
+     * @param {Function} res er en Function callback
+     * @param {Function} next er en Function callback og koncekvensen af next er den hopper videre til næste funktion 
+*/
+exports.showuserrolesform = async function(req, res, next){
+    try {
+        const usersql = `SELECT id, name, level FROM roles
+        WHERE id = :id`;
+        const [rows, fieilds ] = await db.query(usersql, {id: req.params.id});
+        res.render('dashboard/editusersroles', { userroles: rows[0]}); 
+    } catch (error) {
+        console.log(error);
+        res.send('fejl'); 
+    }
+};
+
+/**
+ * @module controler/usersroles
+ */
+
+/**
+     *  insæter data fra oprate editusersroles og insæter dem i databasen som en updatering  med hjælpe fra  req.params.id som er id fra  url  
+     * @param {Object} req er et object
+     * @param {Function} res er en Function callback
+     * @param {Function} next er en Function callback og koncekvensen af next er den hopper videre til næste funktion 
+*/
+exports.editusersroles = async function(req, res, next){
+  try {
+        const categoriesql = `UPDATE roles SET name = :name, level = :level  WHERE id = :id `;
+        const  categorie = await db.query(categoriesql, {
+            name: req.fields.name,
+            level: req.fields.level,
+            id: req.params.id
+        });
+        res.redirect('/editusersroles/' + req.params.id);
+    } catch (error) {
+        console.log(error);
+        res.send('fejl'); 
+    }
+}
+
+/**
+ * @module controler/deleteuserroles
+ */
+
+/**
+     * denne fuktion sletter en deleteuserroles med hjælpe fra  req.params.id som er id fra  url
+     * @param {Object} req er et object
+     * @param {Function} res er en Function callback
+     * @param {Function} next er en Function callback og koncekvensen af next er den hopper videre til næste funktion 
+*/
+exports.deleteuserroles = async  function(req,res,next) {
+    try {
+        const usersql = `DELETE FROM roles WHERE id = :id`;
+        await db.query(usersql, { id: req.params.id });
+        res.redirect('/userroles');
+    } catch (error) {
+        console.log(error);
+        res.send('fejl');  
+    }
+}

@@ -3,6 +3,9 @@ module.exports = function(app){
         if(typeof  req.app.locals.isloggedin === 'undefined'){
             req.app.locals.isloggedin = false;
         }
+        if(typeof  req.app.locals.userId === 'undefined'){
+            req.app.locals.userId = false;
+        }
         
         next();
     })

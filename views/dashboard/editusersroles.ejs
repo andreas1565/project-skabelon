@@ -1,0 +1,21 @@
+<% include partials/head.ejs %>
+    <div class="flex">
+                <% include partials/menu.ejs %> 
+            <section>
+                    <form  method="post" class="administrationform">
+                            <fieldset>
+                                    <label for="name">name</label>
+                                    <input type="text" name="name" value="<%= userroles.name %>">
+                            </fieldset>
+                            <fieldset>
+                                    <label for="level">level</label>
+                                    <input type="number" name="level" value="<%= userroles.level %>">
+                            </fieldset>
+                            <button type="submit">opdater et brugerrolle</button>
+                    </form>
+                        <p>
+                            <%= (typeof  errorMessage != "undefined") ?  errorMessage : '' %>
+                        </p>
+            </section>
+    </div>
+    <% include partials/footer.ejs %>

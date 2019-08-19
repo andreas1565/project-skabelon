@@ -58,6 +58,7 @@ exports.logincheck = async function(req, res, next){
         req.session.user = rows[0].id;
         res.redirect(`/profile/${rows[0].id}`);
         req.app.locals.isloggedin = true;
+        req.app.locals.userId = rows[0].id;
        
     } catch (error) {
         console.log(error);
@@ -67,7 +68,8 @@ exports.logincheck = async function(req, res, next){
 
 exports.logout = function(req, res, next){
     delete req.session.isloggedin;
-    delete req.session.user;
+    delete  req.session.user;
     delete  req.app.locals.isloggedin;
+    delete  req.app.locals.userId;
     res.redirect('/login');
 }
