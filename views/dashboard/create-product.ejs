@@ -1,0 +1,59 @@
+<% include partials/head.ejs %>
+    <div class="flex">
+            <nav>
+                    <ul>
+                        <li><a href="/dashboard">dashborad</a></li>
+                        <li><a href="/products">products</a></li>
+                        <li><a href="/categorie">categories</a></li>
+                        <li><a href="/users">users</a></li>
+                    </ul>
+                </nav>
+                <section>
+                        <form  method="post" class="administrationform">
+                                <fieldset>
+                                        <label for="name">skriv en name på dit product</label>
+                                        <input type="text" name="name" value="<%= (typeof name != 'undefined')? name: '' %>">
+                                </fieldset>
+                                <fieldset>
+                                    <label for="description">beskrivsel</label>
+                                        <textarea name="description">
+                                            <%= (typeof description != 'undefined')? description: '' %>
+                                        </textarea>
+                                </fieldset>
+                                <fieldset>
+                                    <label for="price">pris</label>
+                                    <input type="number" name="price" value="<%= (typeof price != 'undefined')? price: '' %>">
+                                </fieldset>
+                                <fieldset>
+                                    <label for="weight">vægt</label>
+                                    <input type="number" name="weight" value="<%= (typeof weight != 'undefined')? weight: '' %>">
+                                </fieldset>
+                                <fieldset>
+                                    <label for="amount">antal</label>
+                                    <input type="number" name="amount" value="<%= (typeof amount != 'undefined')? amount: '' %>">
+                                </fieldset>
+                                <div id="uploadbutton">
+                                        <figure>
+                                            Upload
+                                        </figure>
+                                        <input type="file" name="image" id="uploadfield" value="<%= (typeof image != 'undefined')? image: '' %>">
+                                    </div>
+                                <fieldset>
+                                    <label for="categories">kategorie</label>
+                                    <select name="categories" style="display:block">
+                                            <% categories.forEach(categorie => { %>
+                                            <option value="0" disabled selected hidden>vælg et menu kategorie</option>    
+                                            <option value="<%= categorie.id %>">
+                                                <%=  categorie.name %>
+                                            </option>
+                                            <% }); %>
+                                    </select>
+                                </fieldset>
+                                <button type="submit">oprate et products</button>
+                            </form>
+                            <p>
+                                <%= (typeof  errorMessage != "undefined") ?  errorMessage : '' %>
+                            </p>  
+                </section>    
+    </div>
+    <% include partials/footer.ejs %>

@@ -1,0 +1,61 @@
+<% include partials/head.ejs %>
+    <div class="flex">
+            <nav>
+                    <li><a class="fas fa-bars" id="burgermenu" href="#"></a></li>
+                    <ul>
+                        <li><a class="fas fa-times" id="closebtn" href="#"></a></li> 
+                        <li><a href="/dashboard">dashborad</a></li>
+                        <li><a href="/products">products</a></li>
+                        <li><a href="/categorie">categories</a></li>
+                        <li><a href="/users">users</a></li>
+                    </ul>
+            </nav>
+            <main>
+                <section>
+                        <a href="/createproducts" class="button">oprate et product</a>
+                            <table>
+                                <thead>
+                                    <tr>
+                                            <h1><%= title %></h1>
+                                            <th></th>
+                                            <th>navn</th>
+                                            <th>description</th>
+                                            <th>price</th>
+                                            <th>weight</th>
+                                            <th>amount</th>
+                                            <th>categories</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                            <% products.forEach(product => { %>
+                                        <tr>
+                                            <td>
+                                                <a href="/editproduct/<%= product.id %>" class="fas fa-edit"></a>
+                                                <a href="/deleteproducts/<%= product.id %>" class="fas fa-trash-alt"></a>
+                                            </td>
+                                            <td> 
+                                                <%= product.name %>
+                                            </td>
+                                            <td>
+                                                <%=  product.description %>
+                                            </td>
+                                            <td>
+                                                <%= product.price %>
+                                            </td>
+                                            <td>
+                                                <%= product.weight %>
+                                            </td>
+                                            <td>
+                                                <%= product.amount %>
+                                            </td>
+                                            <td>
+                                                <%= product.categoriesname %>
+                                            </td>
+                                        </tr>
+                                        <% }); %>
+                                    </tbody>
+                                </table>
+                    </section>
+            </main>
+    </div>
+<% include partials/footer.ejs %>

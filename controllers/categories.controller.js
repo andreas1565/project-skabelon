@@ -10,7 +10,7 @@ const db = require('../config/sql');
      * @param {Function} next er en Function callback og koncekvensen af next er den hopper videre til næste funktion
 */
 exports.getcategorieform = function(req , res , next) {
-    res.render('create-categorie');
+    res.render('dashboard/create-categorie');
 };
 
 /**
@@ -37,7 +37,7 @@ exports.createcategorie = async function(req, res ,next) {
         success = false;
     }
     if(success !== true){
-        res.render("create-categorie",  {errorMessage, ...req.fields});
+        res.render("dashboard/create-categorie",  {errorMessage, ...req.fields});
          // return stopper fuction
         return;
     }
@@ -73,7 +73,7 @@ exports.getcategorie = async function(req, res, next){
     try {
      const categoriesql = `SELECT id, name, description FROM test3.categories`
      const [rows, fieilds] = await db.query(categoriesql);
-     res.render('categorie', {categories: rows}); 
+     res.render('dashboard/categorie', {categories: rows}); 
     } catch (error) {
         console.log(error);
         res.send('fejl');
@@ -95,7 +95,7 @@ exports.showcategorieform = async function(req, res, next){
     try {
         const categoriesql = `SELECT id, name, description FROM categories WHERE id = :id`;
         const [rows, fieilds] = await db.query(categoriesql, { id: req.params.id});
-        res.render('editcategorie', {categorie: rows[0]}); 
+        res.render('dashboard/editcategorie', {categorie: rows[0]}); 
       //  console.log(rows[0]);
     } catch (error) {
         console.log(error);

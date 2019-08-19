@@ -3,9 +3,179 @@
     padding: 0;
     box-sizing: border-box;
 }
-body{
-    margin: 0 15px;
-}
-div{
+/*----------menu-------------------------------------*/
+/* .flex classen er for at menu og table og form er vedd siden af hinanden */
+.flex{
+    width: 100%;
     display: flex;
 }
+/* laver den mørke menu */
+ul{
+    height: 170vh;
+    width: 200px;
+    background-color: #111;
+    padding-top: 20px;
+    position: relative; /* position: relative; er for at #closebtn er ved den position  i menu*/
+}
+ nav  li, nav a{
+    list-style: none;
+    text-decoration: none;
+}
+ nav ul li a{
+  padding: 10px 10px 10px 30px; 
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+}
+#burgermenu{
+    font-size:30px;
+    cursor: pointer;
+    margin-left: 3%;
+    display: none;
+    color: #111;
+  }
+  /*  for x position  i menu*/
+  #closebtn {
+    position: absolute;
+    top: 0;
+    right: 2px;
+    font-size: 30px;
+    margin-left: 50px; 
+      display: none;
+   }
+/*----------menu end-------------------------------------*/
+/*----------table-------------------------------------*/
+main{
+     max-width:1280px;  
+    margin: 0 auto;
+}
+section{
+    width:100%;
+}
+table{ 
+    width:100%; 
+}
+table td, th{
+   text-align: center;
+    padding: 5px;
+}
+.fa-edit{
+    color: #00f;
+}
+.fa-trash-alt{
+    color: #f00;
+}
+/*----------table end-------------------------------------*/
+/*----------administration form-------------------------------------*/
+/*så dette gør at label er i mitten */
+.administrationform label{
+    text-align: center;
+    display: block; /* den er et Inline Element som standart men lave det til et block Element gør starter altid på en ny linje og og tager den fulde tilgængelige bredde og strækker sig ud til venstre og højre så langt det kan og et inline Element gør starter ikke på en ny linje og tager kun så meget bredde som nødvendigt */
+    margin-bottom: 2%;
+    margin-top: 4%;
+}
+.administrationform fieldset{
+    border: none;
+}
+.administrationform input{
+    width: 30%;
+    padding: 12px 20px; /* 12px er top og bund 20px er højer og venste */
+    display: block; /* den er et Inline Element som standart men lave det til et block Element gør starter altid på en ny linje og og tager den fulde tilgængelige bredde og strækker sig ud til venstre og højre så langt det kan og et inline Element gør starter ikke på en ny linje og tager kun så meget bredde som nødvendigt */
+    margin: 0  auto;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.administrationform select{
+    margin: 0 auto;
+    margin-bottom: 2%;
+}
+.administrationform button{
+    display: block;
+    padding: 10px 10px;
+    margin: 0 auto;
+    margin-top: 5%;
+    margin-bottom: 2%;
+}
+.administrationform textarea{
+    resize: none;
+    height: 6em;
+    width: 50%;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    display: block; /*den er et Inline Element som standart men lave det til et block Element gør starter altid på en ny linje og og tager den fulde tilgængelige bredde og strækker sig ud til venstre og højre så langt det kan og et inline Element gør starter ikke på en ny linje og tager kun så meget bredde som nødvendigt*/
+    background-color: white;
+    border: 1px solid #ccc;
+    font-size: 1.2em;
+}
+.administrationform img{
+    width: 200px;
+    height: auto;
+    margin: 0  auto;
+    display: block;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+.button {
+    text-decoration: none;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 52px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block; /*den er et Inline Element*/
+    font-size: 16px; 
+    cursor: pointer;
+    margin-top: 1%;
+    margin-bottom: 2%;
+}
+/* her skjules standardfeltet for filupload   */
+#uploadbutton>input{
+    opacity: 0;
+    cursor: pointer;
+}
+/* her sørger jeg for input standardfeltet for filupload er i midten  */
+#uploadfield{
+    border: none; 
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 2%;
+ }
+#uploadbutton{
+    position: relative; /* position relative kan positioneres udfra elementet nuværende position  */
+}
+#uploadbutton>figure{
+    margin-top: 2%;
+    position: absolute; /* position absolute positionere sig udfra sit parent element som skal være relative hvis det ikke er relative så vil den være i toppen af dokumentet */
+    height: 3em;
+    padding: 1em 2.5em 0;
+    background: #F55;
+    top: 0;
+    left: 50%; /* for at den næsten kommer i midten  */
+    transform: translateX(-50%);/* enten minimere eller udvidere elementet*/
+}
+
+@media screen and (max-width:800px){
+   section{
+    overflow-x:auto;   
+   }    
+}
+@media screen and (max-width:500px){
+    nav ul li a{
+    padding: 6px 6px 6px 6px;
+    }
+    section{
+     overflow-x:auto; 
+     margin-left: 5%;  
+    }
+    #burgermenu{
+        display: block;
+    }
+    ul{
+        display: none;
+    }
+        #closebtn{
+          display: block;
+        }    
+ }
