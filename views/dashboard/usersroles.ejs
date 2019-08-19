@@ -1,29 +1,30 @@
 <% include partials/head.ejs %>
     <div class="flex">
-            <% include partials/menu.ejs %> 
+            <% include partials/menu.ejs %>
             <main>
                     <section>
+                            <a href="/createusersroles" class="button">oprate et brugerroller</a>
                             <table>
                                     <thead>
                                         <tr>
-                                            <h1>bruger</h1>
+                                            <h1>brugerroller</h1>
                                             <th></th>
                                             <th>navn</th>
-                                            <th>email</th>
+                                            <th>level</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                            <% users.forEach(user => { %>
+                                            <% usersroles.forEach(usersrole => { %>
                                         <tr>
                                             <td>
-                                                <a href="/edituser/<%= user.id %>" class="fas fa-edit"></a>
-                                                <a href="/deleteuser/<%= user.id %>" class="fas fa-trash-alt"></a>
+                                                <a href="/editusersroles/<%= usersrole.id %>" class="fas fa-edit"></a>
+                                                <a href="/deletusersroles/<%= usersrole.id %>" class="fas fa-trash-alt"></a>
                                             </td>
                                             <td> 
-                                                <%= user.username %>
+                                                <%= usersrole.name %>
                                             </td>
                                             <td>
-                                                <%=  user.email %>
+                                                <%=  usersrole.level %>
                                             </td>
                                         </tr>
                                         <% }); %>

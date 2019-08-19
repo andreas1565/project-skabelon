@@ -1,40 +1,35 @@
 <% include partials/head.ejs %>
 <div class="flex">
-    <nav>
-        <ul>
-            <li><a href="/dashboard">dashborad</a></li>
-            <li><a href="/products">products</a></li>
-            <li><a href="/categorie">categories</a></li>
-            <li><a href="/users">users</a></li>
-        </ul>
-    </nav>
-    <section>
-            <a href="/createcategorie" class="button">oprate et categorie</a>
-                    <table>
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>navn</th>
-                                    <th>description</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                    <% categories.forEach(categorie => { %>
-                                <tr>
-                                    <td>
-                                        <a href="/editcategorie/<%= categorie.id %>" class="fas fa-edit"></a>
-                                        <a href="/deletecategorie/<%= categorie.id %>" class="fas fa-trash-alt"></a>
-                                    </td>
-                                    <td> 
-                                        <%= categorie.name %>
-                                    </td>
-                                    <td>
-                                        <%=  categorie.description %>
-                                    </td>
-                                </tr>
-                                <% }); %>
-                            </tbody>
-                        </table>
-            </section>
+        <% include partials/menu.ejs %> 
+        <main>
+            <section>
+                    <a href="/createcategorie" class="button">oprate et categorie</a>
+                            <table>
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>navn</th>
+                                            <th>description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                            <% categories.forEach(categorie => { %>
+                                        <tr>
+                                            <td>
+                                                <a href="/editcategorie/<%= categorie.id %>" class="fas fa-edit"></a>
+                                                <a href="/deletecategorie/<%= categorie.id %>" class="fas fa-trash-alt"></a>
+                                            </td>
+                                            <td> 
+                                                <%= categorie.name %>
+                                            </td>
+                                            <td>
+                                                <%=  categorie.description %>
+                                            </td>
+                                        </tr>
+                                        <% }); %>
+                                    </tbody>
+                                </table>
+                    </section>
+        </main>
     </div>
 <% include partials/footer.ejs %>

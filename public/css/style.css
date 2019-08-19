@@ -28,6 +28,9 @@ ul{
   color: #818181;
   display: block;
 }
+nav ul li a:hover{
+    color: lightgray;
+}
 #burgermenu{
     font-size:30px;
     cursor: pointer;
@@ -52,6 +55,7 @@ main{
 }
 section{
     width:100%;
+    text-align: center;
 }
 table{ 
     width:100%; 
@@ -175,7 +179,18 @@ table td, th{
     ul{
         display: none;
     }
-        #closebtn{
+    #closebtn{
           display: block;
-        }    
+    }
+    .administrationform input{
+        width: 60%;
+    }
+    .administrationform textarea{
+        width: 80%;
+    }    
+ }
+ @media screen and (max-width:330px){
+    .administrationform input{
+        width: 90%;
+    } 
  }
