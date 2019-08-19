@@ -1,0 +1,28 @@
+<% include partials/head.ejs %>
+    <div class="flex">
+            <nav>
+                    <ul>
+                        <li><a href="/dashboard">dashborad</a></li>
+                        <li><a href="/products">products</a></li>
+                        <li><a href="/categorie">categories</a></li>
+                        <li><a href="/users">users</a></li>
+                    </ul>
+            </nav>
+            <section>
+                <h1>rediger <%= user.username %></h1>
+                <form  method="post"  class="administrationform">
+                    <fieldset>
+                            <label for="username">brugernavn</label>
+                            <input type="text" name="username" value="<%= user.username %>">
+                    </fieldset>
+                    <fieldset>
+                        <label for="email">email</label>
+                        <input type="email" name="email" id="email" value="<%= user.email %>">
+                    </fieldset>
+                    <button type="submit">gem</button>
+                </form>
+
+            </section>
+    </div>
+  
+    <% include partials/footer.ejs %>

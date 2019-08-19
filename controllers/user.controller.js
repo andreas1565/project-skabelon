@@ -18,7 +18,7 @@ exports.getusers = async function(req,res,next){
         const [rows,  fieilds] = await db.query(usersql);
        // console.log(rows);
        // console.log(fieilds);
-        res.render('users', { users: rows });
+        res.render('dashboard/users', { users: rows });
         res.end();
     } catch (error) {
         console.log(error);
@@ -42,7 +42,7 @@ exports.showuserform = async function(req, res, next){
         ON users.fk_profile = profiles.id 
         WHERE  users.id = :id`;
         const [rows, fieilds ] = await db.query(usersql, {id: req.params.id});
-        res.render('edituser', { user: rows[0]}); 
+        res.render('dashboard/edituser', { user: rows[0]}); 
     } catch (error) {
         console.log(error);
         res.send('fejl'); 

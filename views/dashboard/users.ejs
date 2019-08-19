@@ -1,0 +1,40 @@
+<% include partials/head.ejs %>
+    <div class="flex">
+            <nav>
+                    <ul>
+                        <li><a href="/dashboard">dashborad</a></li>
+                        <li><a href="/products">products</a></li>
+                        <li><a href="/categorie">categories</a></li>
+                        <li><a href="/users">users</a></li>
+                    </ul>
+            </nav>
+            <section>
+                    <table>
+                            <thead>
+                                <tr>
+                                    <h1>bruger</h1>
+                                    <th></th>
+                                    <th>navn</th>
+                                    <th>email</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                    <% users.forEach(user => { %>
+                                <tr>
+                                    <td>
+                                        <a href="/edituser/<%= user.id %>" class="fas fa-edit"></a>
+                                        <a href="/deleteuser/<%= user.id %>" class="fas fa-trash-alt"></a>
+                                    </td>
+                                    <td> 
+                                        <%= user.username %>
+                                    </td>
+                                    <td>
+                                        <%=  user.email %>
+                                    </td>
+                                </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+            </section>
+    </div>
+    <% include partials/footer.ejs %>
