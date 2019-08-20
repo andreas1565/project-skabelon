@@ -36,6 +36,16 @@ exports.createcategorie = async function(req, res ,next) {
         errorMessage = "feltet beskrivesel er tom";
         success = false;
     }
+       /* her spør man hvis det førest  element er et space  */ 
+       if(req.fields.description[0] == " "){
+        /* looper man i gemmen beskrives felte for at det førest ikke er et space */ 
+        while(req.fields.description[0] === " ") {
+            /* slice(1) fjern det føreste element */ 
+            req.fields.description = req.fields.description.slice(1);
+        }
+        success = false;
+        errorMessage = 'ingen mellemrum';
+    }
     if(success !== true){
         res.render("dashboard/create-categorie",  {errorMessage, ...req.fields});
          // return stopper fuction
@@ -115,6 +125,8 @@ exports.showcategorieform = async function(req, res, next){
 */
 
 exports.editcategorie = async function(req, res, next){
+    let success = true;
+    let errorMessage;
     if (req.fields.name === "") {
         success = false;
         errorMessage ='feltet navn er tom';
@@ -123,10 +135,20 @@ exports.editcategorie = async function(req, res, next){
         errorMessage = "feltet beskrivesel er tom";
         success = false;
     }
+       /* her spør man hvis det førest  element er et space  */ 
+       if(req.fields.description[0] == " "){
+        /* looper man i gemmen beskrives felte for at det førest ikke er et space */ 
+        while(req.fields.description[0] === " ") {
+            /* slice(1) fjern det føreste element */ 
+            req.fields.description = req.fields.description.slice(1);
+        }
+        success = false;
+        errorMessage ='ingen mellemrum';
+    }
     if(success !== true){
         const categoriesql = `SELECT id, name, description FROM categories WHERE id = :id`;
         const [rows, fieilds] = await db.query(categoriesql, { id: req.params.id});
-        res.render("editcategorie",  {errorMessage, categorie: rows[0]});
+        res.render("dashboard/editcategorie",  {errorMessage, categorie: rows[0]});
         return;
     }
     try {
