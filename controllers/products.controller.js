@@ -1,4 +1,6 @@
 const db = require('../config/sql');
+const fs = require('fs');
+const uploadDir = `./public/images/uploads/`;
 /**
  * @module controler/getproductform
  */
@@ -68,10 +70,14 @@ exports.createproducts = async function(req, res, next){
         return;
     }
     try {
-        const productssql =  `INSERT INTO products SET name = :name, description = :description, price = :price, weight = :weight, amount = :amount, fk_categories = :categories`; 
+        const data = fs.readFileSync(req.files.image.path);
+        const newFileName = Date.now() + '_' + req.files.image.name;
+        fs.writeFileSync(uploadDir + newFileName, data);
+        const productssql =  `INSERT INTO products SET name = :name, description = :description, image = :image, price = :price, weight = :weight, amount = :amount, fk_categories = :categories`; 
        const  products = await db.query(productssql, {
            name: req.fields.name,
            description: req.fields.description,
+           image: newFileName,
            price: req.fields.price,
            weight: req.fields.weight,
            amount: req.fields.amount,
@@ -122,7 +128,7 @@ exports.getproducts = async function (req, res, next){
 */
 exports.showproductsform = async function(req, res, next){
     try {
-        const productssql =  `SELECT products.id, products.name, products.description, products.price, products.weight, products.amount, fk_categories FROM test3.products
+        const productssql =  `SELECT products.id, products.name, products.description, products.image,  products.price, products.weight, products.amount, fk_categories FROM test3.products
         WHERE id = :id`;
         const categoriesql = `SELECT id,name FROM test3.categories`
         const [rows, fieilds] = await db.query(productssql, { id: req.params.id });
@@ -205,6 +211,25 @@ exports.editproducts = async  function(req, res, next){
         res.send('fejl'); 
     }
 }
+
+exports.editproductsimage = async function(req, res, next){
+    try {
+        const imagename = 'SELECT id,image FROM products WHERE  id = :id';
+        const [rows] = await db.query(imagename, {id: req.params.id})
+        const data = fs.readFileSync(req.files.image.path);
+        const newFileName = Date.now() + '_' + req.files.image.name;
+        fs.writeFileSync(uploadDir + newFileName, data);
+        fs.unlinkSync(uploadDir + rows[0].image);
+        const result = await db.query('UPDATE products SET image = :image WHERE id = :id',{
+            image: newFileName,
+            id: req.params.id
+        });
+        res.redirect('/editproduct/' + req.params.id);
+    } catch (error) {
+        console.log(error);
+        res.send('fejl'); 
+    }
+}
 /**
  * @module controler/deletecategorie
  */
@@ -217,6 +242,9 @@ exports.editproducts = async  function(req, res, next){
 */
 exports.deleteproducts = async function(req, res, next){
     try {
+        const imagename = 'SELECT id,image FROM products WHERE  id = :id';
+        const [rows] = await db.query(imagename, {id: req.params.id});
+        fs.unlinkSync(uploadDir + rows[0].image);
         const productssql = `DELETE FROM products WHERE id = :id`;
         await db.query(productssql, {id: req.params.id}); 
         res.redirect('/products');

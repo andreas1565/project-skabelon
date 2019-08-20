@@ -1,4 +1,4 @@
-const {getproducts, getcreateform, createproducts, showproductsform, editproducts, deleteproducts} = require('../controllers/products.controller');
+const {getproducts, getcreateform, createproducts, showproductsform, editproducts, editproductsimage, deleteproducts} = require('../controllers/products.controller');
 const isauthorized = require('../midleware/isauthorized');
 const isemployee = require('../midleware/isemployee');
 const isadmin = require('../midleware/isadmin');
@@ -32,6 +32,8 @@ module.exports =  function(app){
      * @param {Function} app express objektet
      */
     app.post('/editproduct/:id',isauthorized, isadmin, editproducts);
+
+    app.post('/editproduct/image/:id', isauthorized, isadmin, editproductsimage);
     /**
      * denne fuktion håndter get metoden for endpointet /deletecategorie/:id
      * @param {Function} app  express objektet

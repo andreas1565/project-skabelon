@@ -2,7 +2,7 @@
     <div class="flex">
             <% include partials/menu.ejs %> 
                 <section>
-                        <form  method="post" class="administrationform">
+                        <form  method="post" class="administrationform" enctype="multipart/form-data">
                                 <fieldset>
                                         <label for="name">skriv en name på dit product</label>
                                         <input type="text" name="name" value="<%= (typeof name != 'undefined')? name: '' %>">
@@ -13,6 +13,12 @@
                                             <%= (typeof description != 'undefined')? description: '' %>
                                         </textarea>
                                 </fieldset>
+                                <div id="uploadbutton">
+                                    <figure>
+                                        Upload
+                                    </figure>
+                                    <input type="file" name="image" id="uploadfield" value="<%= (typeof image != 'undefined')? image: '' %>">
+                                </div>
                                 <fieldset>
                                     <label for="price">pris</label>
                                     <input type="number" name="price" value="<%= (typeof price != 'undefined')? price: '' %>">
@@ -25,12 +31,6 @@
                                     <label for="amount">antal</label>
                                     <input type="number" name="amount" value="<%= (typeof amount != 'undefined')? amount: '' %>">
                                 </fieldset>
-                                <div id="uploadbutton">
-                                        <figure>
-                                            Upload
-                                        </figure>
-                                        <input type="file" name="image" id="uploadfield" value="<%= (typeof image != 'undefined')? image: '' %>">
-                                    </div>
                                 <fieldset>
                                     <label for="categories">kategorie</label>
                                     <select name="categories" style="display:block">
