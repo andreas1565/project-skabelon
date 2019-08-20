@@ -38,6 +38,7 @@
                                 <button type="submit">opdater et product</button>
                             </form>
                             <form action="/editproduct/image/<%= product.id %>" method="POST" enctype="multipart/form-data" class="administrationform">
+                                <!--  <img src="/images/resize/<%= product.image %>" alt="billede fra databaen"> -->
                                 <img src="/images/uploads/<%= product.image %>" alt="billede fra databaen">
                                 <div id="uploadbutton">
                                     <figure>

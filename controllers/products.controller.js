@@ -1,6 +1,10 @@
 const db = require('../config/sql');
 const fs = require('fs');
-const uploadDir = `./public/images/uploads/`;
+const path = require('path');   
+/* const gm = require('gm'); with resizing  */
+/*  har er stien til uploads og resize det var til at skive for eksempel './public/images/uploads/' */ 
+const uploadDir = path.join(__dirname, '../', 'public/', 'images/', 'uploads/');
+/* const resizedir = path.join(__dirname,  '../', 'public/', 'images/', 'resize/'); with resizing */
 /**
  * @module controler/getproductform
  */
@@ -58,6 +62,16 @@ exports.createproducts = async function(req, res, next){
         errorMessage = "feltet beskrivelse er tom";
         success = false;
     }
+     /* her spør man hvis det førest  element er et space  */ 
+     if(req.fields.description[0] == " "){
+        /* looper man i gemmen beskrives felte for at det førest ikke er et space */ 
+        while(req.fields.description[0] === " ") {
+            /* slice(1) fjern det føreste element */ 
+            req.fields.description = req.fields.description.slice(1);
+        }
+        success = false;
+        errorMessage = 'ingen mellemrum';
+    }
     if(req.fields.name === ""){
         errorMessage = "feltet navn er tom";
         success = false;
@@ -70,6 +84,27 @@ exports.createproducts = async function(req, res, next){
         return;
     }
     try {
+        /* // her uploader jeg bilde til serveren
+        const data = fs.readFileSync(req.files.image.path);
+        const newFileName = Date.now() + '_' + req.files.image.name;
+
+        fs.writeFileSync(uploadDir +  newFileName, data);
+        // resizer blide så tar hvor bilde upload så resize det og output den nye file
+        gm(uploadDir +  newFileName)
+        .resize(240, 240, '!')
+        .crop(240,  220)
+        .write(resizedir + newFileName, function (err) {
+        if (!err){
+            console.log('done');
+            // slette det der blive upload den førest gang
+            fs.unlinkSync(uploadDir + newFileName);
+            }
+        else{
+            console.log(err);
+        }
+        }); */
+
+         /* uden resize */
         const data = fs.readFileSync(req.files.image.path);
         const newFileName = Date.now() + '_' + req.files.image.name;
         fs.writeFileSync(uploadDir + newFileName, data);
@@ -181,6 +216,16 @@ exports.editproducts = async  function(req, res, next){
         errorMessage = "feltet beskrivelse er tom";
         success = false;
     }
+     /* her spør man hvis det førest  element er et space  */ 
+     if(req.fields.description[0] == " "){
+        /* looper man i gemmen beskrives felte for at det førest ikke er et space */ 
+        while(req.fields.description[0] === " ") {
+            /* slice(1) fjern det føreste element */ 
+            req.fields.description = req.fields.description.slice(1);
+        }
+        success = false;
+        errorMessage = 'ingen mellemrum';
+    }
     if(req.fields.name === ""){
         errorMessage = "feltet navn er tom";
         success = false;
@@ -214,12 +259,32 @@ exports.editproducts = async  function(req, res, next){
 
 exports.editproductsimage = async function(req, res, next){
     try {
-        const imagename = 'SELECT id,image FROM products WHERE  id = :id';
+      /*   const imagename = 'SELECT id,image FROM products WHERE  id = :id';
+        const [rows] = await db.query(imagename, {id: req.params.id})
+        const data = fs.readFileSync(req.files.image.path);
+        const newFileName = Date.now() + '_' + req.files.image.name;
+        fs.unlinkSync(resizedir + rows[0].image);
+        fs.writeFileSync(uploadDir + newFileName, data);
+        gm(uploadDir +  newFileName)
+        .resize(240, 240, '!') 
+        .write(resizedir + newFileName, function (err) {
+        if (!err){
+            console.log('done');
+            fs.unlinkSync(uploadDir + newFileName);
+            }
+        else{
+            console.log(err);
+        }
+        }); */
+
+        /* uden resize */ 
+         const imagename = 'SELECT id,image FROM products WHERE  id = :id';
         const [rows] = await db.query(imagename, {id: req.params.id})
         const data = fs.readFileSync(req.files.image.path);
         const newFileName = Date.now() + '_' + req.files.image.name;
         fs.writeFileSync(uploadDir + newFileName, data);
-        fs.unlinkSync(uploadDir + rows[0].image);
+        fs.unlinkSync(uploadDir + rows[0].image); 
+      /* fs.unlinkSync(uploadDir + rows[0].image);  */ 
         const result = await db.query('UPDATE products SET image = :image WHERE id = :id',{
             image: newFileName,
             id: req.params.id
@@ -244,7 +309,10 @@ exports.deleteproducts = async function(req, res, next){
     try {
         const imagename = 'SELECT id,image FROM products WHERE  id = :id';
         const [rows] = await db.query(imagename, {id: req.params.id});
+       /*  fs.unlinkSync(resizedir + rows[0].image); with resize */
+        /* uden reisze */
         fs.unlinkSync(uploadDir + rows[0].image);
+         
         const productssql = `DELETE FROM products WHERE id = :id`;
         await db.query(productssql, {id: req.params.id}); 
         res.redirect('/products');
