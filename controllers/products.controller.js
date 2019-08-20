@@ -2,7 +2,8 @@ const db = require('../config/sql');
 const fs = require('fs');
 const path = require('path');   
 /* const gm = require('gm'); with resizing  */
-/*  har er stien til uploads og resize det var til at skive for eksempel './public/images/uploads/' */ 
+/*  har er stien til uploads og resize det var til at skive for eksempel './public/images/uploads/' og det er her jeg vil fytte file til fra den midlertidigt mappe  */ 
+// path.join bruges for man ikke skal tage højde for hvilket styresytem man er på - det regner den selv ud og sætter de // \\
 const uploadDir = path.join(__dirname, '../', 'public/', 'images/', 'uploads/');
 /* const resizedir = path.join(__dirname,  '../', 'public/', 'images/', 'resize/'); with resizing */
 /**
@@ -105,8 +106,13 @@ exports.createproducts = async function(req, res, next){
         }); */
 
          /* uden resize */
+         /*req.files.image.path er en sti hvor billedet ligge midlertidigt stien til mappen er c://user/bruger/appdata/local/temp/hashstrang  indeholde af mappe blievr slette hver gang man genstart serveren*/ 
+         // fs.readFileSync hvilken file vi man gerne læse og forskellen på readFile og readFileSync er at readFile er asynkron og skal bruge et callback og readFileSync er synkron
         const data = fs.readFileSync(req.files.image.path);
+        // req.files.image.name er navn på file og  Date.now er et timestamp for hvornår filen er uploadet så jeg  sætter timestamp og navnet sammen og adskiller med _ 
+        // hvis man haver 2 billeder med samme navn forhindre den at billederne ikke bliver overskrevet
         const newFileName = Date.now() + '_' + req.files.image.name;
+        // writeFileSync og  uploaddir er det sted i applicationen hvor filen skal ligge newfile er filens nye navn og data er den midlertidige mappe hvor dataen skal hentes fra
         fs.writeFileSync(uploadDir + newFileName, data);
         const productssql =  `INSERT INTO products SET name = :name, description = :description, image = :image, price = :price, weight = :weight, amount = :amount, fk_categories = :categories`; 
        const  products = await db.query(productssql, {
@@ -277,12 +283,14 @@ exports.editproductsimage = async function(req, res, next){
         }
         }); */
 
-        /* uden resize */ 
+        /* uden resize */
+        // her vælger jeg navnet og id på billedet kommer fra databasen fra det enkelte product og upload den nye til uploaddir 
          const imagename = 'SELECT id,image FROM products WHERE  id = :id';
         const [rows] = await db.query(imagename, {id: req.params.id})
         const data = fs.readFileSync(req.files.image.path);
         const newFileName = Date.now() + '_' + req.files.image.name;
         fs.writeFileSync(uploadDir + newFileName, data);
+        // her slette jeg den gammel file så uploadDir er hvor file liger og rows[0].image er navn på den gammel file
         fs.unlinkSync(uploadDir + rows[0].image); 
       /* fs.unlinkSync(uploadDir + rows[0].image);  */ 
         const result = await db.query('UPDATE products SET image = :image WHERE id = :id',{
