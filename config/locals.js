@@ -6,6 +6,9 @@ module.exports = function(app){
         if(typeof  req.app.locals.userId === 'undefined'){
             req.app.locals.userId = false;
         }
+        if(typeof req.app.locals.userlevel === "undefined"){
+            req.app.locals.userlevel = false;
+        }
         
         next();
     })

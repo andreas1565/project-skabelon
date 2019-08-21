@@ -2,6 +2,7 @@
         <div class="flex">
                 <% include partials/menu.ejs %> 
                 <section>
+                        <a href="/products" class="button">tilbage til products</a>
                         <form  method="post" class="administrationform">
                                 <fieldset>
                                         <label for="name">skriv en name på dit product</label>
@@ -9,9 +10,7 @@
                                 </fieldset>
                                 <fieldset>
                                     <label for="description">beskrivsel</label>
-                                        <textarea name="description">
-                                            <%= product.description %>
-                                        </textarea>
+                                        <textarea name="description"><%= product.description %></textarea>
                                 </fieldset>
                                 <fieldset>
                                     <label for="price">pris</label>
@@ -39,7 +38,7 @@
                             </form>
                             <form action="/editproduct/image/<%= product.id %>" method="POST" enctype="multipart/form-data" class="administrationform">
                                 <!--  <img src="/images/resize/<%= product.image %>" alt="billede fra databaen"> -->
-                                <img src="/images/uploads/<%= product.image %>" alt="billede fra databaen">
+                               <!--  <img src="/images/uploads/<%= product.image %>" alt="billede fra databaen"> -->
                                 <div id="uploadbutton">
                                     <figure>
                                         Upload

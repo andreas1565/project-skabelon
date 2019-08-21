@@ -1,0 +1,34 @@
+<% include partials/head.ejs %>
+<div class="flex">
+        <% include partials/menu.ejs %> 
+        <main>
+            <section>
+                            <table>
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>billede</th>
+                                            <th>product navn</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                            <% images.forEach(image => { %>
+                                        <tr>
+                                            <td>
+                                                <a href="/editimage/<%= image.id %>" class="fas fa-edit"></a>
+                                                <a href="/deleteimage/<%= image.id %>" class="fas fa-trash-alt"></a>
+                                            </td>
+                                            <td> 
+                                                <img src="/images/uploads/<%= image.imagesname %>" alt="">
+                                            </td>
+                                            <td>
+                                                <%=  image.productsname %>
+                                            </td>
+                                        </tr>
+                                        <% }); %>
+                                    </tbody>
+                                </table>
+                    </section>
+        </main>
+    </div>
+<% include partials/footer.ejs %>
