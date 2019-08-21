@@ -38,6 +38,6 @@ require('./routes/user.route')(app);
 require('./routes/profile.route')(app);
 require('./routes/dashboard.route')(app);
 require('./routes/userroles')(app);
-
+require('./routes/images.route')(app);
 
 require('./server/server')(app);

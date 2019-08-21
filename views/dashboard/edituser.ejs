@@ -2,6 +2,7 @@
     <div class="flex">
             <% include partials/menu.ejs %>
                 <section>
+                        <a href="/categorie" class="button">tilbage til  users</a>
                     <h1>rediger <%= user.username %></h1>
                     <form  method="post"  class="administrationform">
                         <fieldset>
@@ -14,7 +15,21 @@
                         </fieldset>
                         <button type="submit">gem</button>
                     </form>
-    
+                    <% if(userlevel >= 99 ){ %>
+                    <form action="/usersupgrade/<%= user.id %>" method="post" class="administrationform">
+                            <fieldset>
+                                        <label for="usersroles">brugerrolle</label>
+                                        <select name="usersroles" style="display:block" id="usersroles">
+                                                <%  usersroles.forEach( usersrole => { %>
+                                                <option value="<%= usersrole.rolesid %>" <%= (user.fk_role==usersrole.rolesid ? 'selected' : '' ) %>>
+                                                    <%=  usersrole.rolesname %>
+                                                </option>
+                                                <% }); %>
+                                        </select>        
+                            </fieldset>
+                            <button type="submit">upgarder userrolle</button>
+                    </form>
+                    <%  }%>
                 </section>
            
     </div>

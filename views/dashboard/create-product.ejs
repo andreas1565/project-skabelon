@@ -2,7 +2,7 @@
     <div class="flex">
             <% include partials/menu.ejs %> 
                 <section>
-                        <form  method="post" class="administrationform" enctype="multipart/form-data">
+                        <form  method="post" class="administrationform">
                                 <fieldset>
                                         <label for="name">skriv en name på dit product</label>
                                         <input type="text" name="name" value="<%= (typeof name != 'undefined')? name: '' %>">
@@ -11,12 +11,12 @@
                                     <label for="description">beskrivsel</label>
                                         <textarea name="description"><%= (typeof description != 'undefined')? description: '' %></textarea>
                                 </fieldset>
-                                <div id="uploadbutton">
+                               <!--  <div id="uploadbutton">
                                     <figure>
                                         Upload
                                     </figure>
                                     <input type="file" name="image" id="uploadfield" value="<%= (typeof image != 'undefined')? image: '' %>">
-                                </div>
+                                </div> -->
                                 <fieldset>
                                     <label for="price">pris</label>
                                     <input type="number" name="price" value="<%= (typeof price != 'undefined')? price: '' %>">

@@ -1,4 +1,4 @@
-const {getusers, showuserform, edituser, deleteuser} = require('../controllers/user.controller');
+const {getusers, showuserform, edituser, usersupgrade,deleteuser} = require('../controllers/user.controller');
 const isauthorized = require('../midleware/isauthorized');
 const isemployee = require('../midleware/isemployee');
 const isadmin = require('../midleware/isadmin');
@@ -18,6 +18,20 @@ module.exports = function(app){
      * @param {Function} app express objektet
      */
     app.post('/edituser/:id',isauthorized, isadmin, edituser);
+
+    app.get('/usersupgrade/:id', isauthorized, isadmin, showuserform);
+    /**
+     * denne fuktion håndter get metoden for endpointet /usersupgrade/:id 
+     * @param {Function} app  express objektet
+     */
+
+    app.post('/usersupgrade/:id', isauthorized, isadmin, usersupgrade);
+
+     /**
+     * denne funktion håndterer post metoden for endpointet /usersupgrade/:id
+     * @param {Function} app express objektet
+     */
+
     /**
      * denne fuktion håndter get metoden for endpointet /deleteuser/:id
      * @param {Function} app  express objektet

@@ -30,19 +30,32 @@ exports.getusers = async function(req,res,next){
  */
 
 /**
-     * denne fuktion renderershowuserform som er en form med den enkelte user med hjælpe fra  req.params.id som er id fra  url 
+     * denne fuktion renderershowuserform som er en form med den enkelte user med hjælpe fra  req.params.id som er id fra  url og kommer an på vil bruger rolle man logger ind med så kan man ændre bugger roller
      * @param {Object} req er et object
      * @param {Function} res er en Function callback
      * @param {Function} next er en Function callback og koncekvensen af next er den hopper videre til næste funktion 
 */
 exports.showuserform = async function(req, res, next){
     try {
-        const usersql = `SELECT users.id, users.username, profiles.email FROM users
-        INNER JOIN profiles
-        ON users.fk_profile = profiles.id 
-        WHERE  users.id = :id`;
-        const [rows, fieilds ] = await db.query(usersql, {id: req.params.id});
-        res.render('dashboard/edituser', { user: rows[0]}); 
+        /* så hvis man er admin eller højer så kan man rediger brugerroller */ 
+        if(req.app.locals.userlevel >= 99){
+            const rolessql = `SELECT id AS rolesid, name AS rolesname FROM test3.roles WHERE name != 'superadmin' `;
+            const [rows2] = await db.query(rolessql);
+            const usersql = `SELECT users.id, users.username, profiles.email, fk_role FROM users
+            INNER JOIN profiles
+            ON users.fk_profile = profiles.id 
+            WHERE  users.id = :id`;
+            const [rows, fieilds ] = await db.query(usersql, {id: req.params.id});
+            res.render('dashboard/edituser', { user: rows[0], usersroles: rows2}); 
+        } else{
+            // kun hvis bruger navn og email 
+            const usersql = `SELECT users.id, users.username, profiles.email FROM users
+            INNER JOIN profiles
+            ON users.fk_profile = profiles.id 
+            WHERE  users.id = :id`;
+            const [rows, fieilds ] = await db.query(usersql, {id: req.params.id});
+            res.render('dashboard/edituser', { user: rows[0]});  
+        }
     } catch (error) {
         console.log(error);
         res.send('fejl'); 
@@ -59,6 +72,25 @@ exports.showuserform = async function(req, res, next){
      * @param {Function} next er en Function callback og koncekvensen af next er den hopper videre til næste funktion 
 */
 exports.edituser = async function(req, res, next){
+    let success = true;
+    let errorMessage;
+    if(req.fields.username === ""){
+        errorMessage = "feltet brger navn er tom";
+        success = false;
+    }
+    if(req.fields.email === ""){
+        errorMessage = "feltet brger email er tom";
+        success = false;
+    }
+    if(success !== true){
+        const usersql = `SELECT users.id, users.username, profiles.email FROM users
+        INNER JOIN profiles
+        ON users.fk_profile = profiles.id 
+        WHERE  users.id = :id`;
+        const [rows, fieilds ] = await db.query(usersql, {id: req.params.id});
+        res.render('dashboard/edituser', { user: rows[0]});;
+        return;
+    }
     try {
         /*
         subquery er en sql sætning inde i en sætning
@@ -85,6 +117,31 @@ exports.edituser = async function(req, res, next){
         res.send('fejl');  
     }
 };
+/**
+ * @module controler/usersupgrade
+ */
+
+/**
+     *  insæter data fra oprate user og insæter dem i databasen som en updatering  med hjælpe fra  req.params.id som er id fra  url  
+     * @param {Object} req er et object
+     * @param {Function} res er en Function callback
+     * @param {Function} next er en Function callback og koncekvensen af next er den hopper videre til næste funktion 
+*/
+exports.usersupgrade = async function(req, res, next){
+    try {
+        const userrolessql =  `UPDATE users SET fk_role = :usersroles WHERE id = :id`;
+        const userroles = await db.query(userrolessql, {
+            usersroles: req.fields.usersroles,
+            id: req.params.id
+        }); 
+        const path = req.route.path.replace(':id', '');
+        res.redirect(path  + req.params.id); 
+    } catch (error) {
+        console.log(error);
+        res.send('fejl');  
+    }
+}
+
 /**
  * @module controler/deleteuser
  */

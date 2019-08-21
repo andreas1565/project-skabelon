@@ -1,4 +1,4 @@
-const {getproducts, getcreateform, createproducts, showproductsform, editproducts, editproductsimage, deleteproducts} = require('../controllers/products.controller');
+const {getproducts, getcreateform, createproducts, showproductsform, editproducts, editproductsimage, deleteproducts} = require('../controllers/products.controller2');
 const isauthorized = require('../midleware/isauthorized');
 const isemployee = require('../midleware/isemployee');
 const isadmin = require('../midleware/isadmin');

@@ -40,12 +40,14 @@ exports.logincheck = async function(req, res, next){
     }
 
     try {
-        const usersql = `SELECT id, passphrase FROM users WHERE username = :username`;
+        const usersql = `SELECT users.id, users.passphrase, roles.level FROM users 
+        INNER JOIN roles
+        ON users.fk_role = roles.id
+        WHERE username = :username`;
+      
         const [rows] =  await db.query(usersql, {
             username: req.fields.username
-        });
-        
-        
+        });        
         if(rows.length !== 1){
             res.redirect("/login");
         }
@@ -59,7 +61,8 @@ exports.logincheck = async function(req, res, next){
         res.redirect(`/profile/${rows[0].id}`);
         req.app.locals.isloggedin = true;
         req.app.locals.userId = rows[0].id;
-       
+        req.app.locals.userlevel = rows[0].level;
+        console.log(req.app.locals.userlevel);
     } catch (error) {
         console.log(error);
         res.send('felj');
@@ -71,5 +74,6 @@ exports.logout = function(req, res, next){
     delete  req.session.user;
     delete  req.app.locals.isloggedin;
     delete  req.app.locals.userId;
+    delete req.app.locals.userlevel;
     res.redirect('/login');
 }
