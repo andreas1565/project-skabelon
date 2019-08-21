@@ -77,10 +77,15 @@ exports.editimages = async function(req, res, next){
     try {
         const imagename = 'SELECT id, name FROM images WHERE  id = :id';
         const [rows] = await db.query(imagename, {id: req.params.id})
-        const tempfile = fs.readFileSync(req.files.image.path);
+        const tempfile = fs.readFileSync(req.files.image.path); /*req.files.image.path er en sti hvor billedet ligge midlertidigt stien til mappen er c://user/bruger/appdata/local/temp/hashstrang  indeholde af mappe blievr slette hver gang man genstart serveren*/   // fs.readFileSync hvilken file vi man gerne læse og forskellen på readFile og readFileSync er at readFile er asynkron og skal bruge et callback og readFileSync er synkron
+        // req.files.image.name er navn på file og  Date.now er et timestamp for hvornår filen er uploadet så jeg  sætter timestamp og navnet sammen og adskiller med _ 
+        // det står inde i `` en string literal og det betyder at man kan skive variabler inde i en string og ${} er sådan man siger her er en variable
         const newFileName = `${Date.now()}_${ req.files.image.name}`;
+        // ___dirname den mappe hvor filen ligger i 
+        //  join  gør at den finder stien til mappen uanset hvilket filsystem du er på 
+        // writeFileSync flytter jeg file fra den midlertidigt mappe jeg bestemer mappen er ../public/images/uploads og jeg buger ikke den midlertidigt mappe for di hvor gang server genstart så bliver den  midlertidigt mappe slette  
         fs.writeFileSync(join(__dirname, "../public/images/uploads", newFileName),tempfile);
-        // her slette jeg den gammel file så uploadDir er hvor file liger og rows[0].image er navn på den gammel file
+        // her slette jeg den gammel file så ../public/images/uploads er hvor file liger og rows[0].image er navn på den gammel file
         fs.unlinkSync(join(__dirname, "../public/images/uploads", rows[0].name)); 
         const imgaesql =  `UPDATE images SET name = :image  WHERE id = :id`;
         const [result] = await db.query(imgaesql, {
