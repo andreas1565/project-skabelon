@@ -62,6 +62,7 @@ exports.showimagesform = async function(req, res, next){
 exports.editimages = async function(req, res, next){
     let success = true;
     let errorMessage;
+    // Regular Expression er et objekt, der beskriver et mønster med tegn.
      // denne Regular Expression gør at den tester om der står image inde i req.files.image.type og test er en javascript method er sammen linger string
      if (!/image/.test(req.files.image.type)) {
         success = false;

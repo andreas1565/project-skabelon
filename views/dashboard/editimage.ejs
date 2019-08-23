@@ -28,7 +28,7 @@
             const uploadfielderror = document.querySelector('#uploadfielderror');
             uploadfielderror.innerHTML = '';
             let succes = true;
-
+             // Regular Expression er et objekt, der beskriver et mønster med tegn.
             if (!/\.(jpg|jpeg|png|gif)$/i.test(uploadfield.value)) {
                 succes = false;
                  uploadfielderror.innerHTML = 'Den uploadede fil er ikke et billede';

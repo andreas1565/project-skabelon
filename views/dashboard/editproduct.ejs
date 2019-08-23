@@ -81,16 +81,18 @@
             amounterror.innerHTML = '';
             
             let succes = true; 
-
+             // Regular Expression er et objekt, der beskriver et mønster med tegn.
            if(!/.*\S.*/g.test(name.value)){
                 succes =  false;
                 nameerror.innerHTML = "feltet name er tomt";
             }
+             // Regular Expression er et objekt, der beskriver et mønster med tegn.
             // textarea har ikke en value men dens protype har en
             if(!/.*\S.*/g.test(description.value)){
                 succes = false;
                 descriptionerror.innerHTML = 'feltet beskrivelse er tomt';
             }
+             // Regular Expression er et objekt, der beskriver et mønster med tegn.
             if(!/.*\S.*/g.test(price.value)){
                 succes = false;
                 priceerror.innerHTML =  'feltet prise er tomt';
@@ -98,7 +100,7 @@
                 succes = false;
                 priceerror.innerHTML =  'feltet kun tal i feltet';  
             }
-
+             // Regular Expression er et objekt, der beskriver et mønster med tegn.
             if(!/.*\S.*/g.test(weight.value)){
                 succes = false;
                 weighterror.innerHTML =  'feltet vægt er tomt';   
@@ -106,7 +108,7 @@
                 succes = false;
                 weighterror.innerHTML =  'feltet kun tal i feltet';
             }
-
+             // Regular Expression er et objekt, der beskriver et mønster med tegn.
             if(!/.*\S.*/g.test(amount.value)){
                 succes = false;
                 amounterror.innerHTML = 'feltet antal er tomt';

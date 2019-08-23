@@ -50,15 +50,17 @@
             usernameerror.innerHTML =  '';
      
              let succes = true;
-     
+             // Regular Expression er et objekt, der beskriver et mønster med tegn.
              if(!/.*\S.*/g.test(email.value)){
                 succes =  false;
                 emailerror.innerHTML = "feltet email er tomt";  
             }
+             // Regular Expression er et objekt, der beskriver et mønster med tegn.
             if(!/@/g.test(email.value)){
                 succes = false;
                 emailerror.innerHTML ='du mangler et snabel-a i feltet';
             }
+             // Regular Expression er et objekt, der beskriver et mønster med tegn.
             if(!/.*\S.*/g.test(username.value)){
                 succes =  false;
                 usernameerror.innerHTML = "feltet username er tomt";

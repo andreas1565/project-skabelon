@@ -19,3 +19,9 @@
 
 
 * express-log-errors er et middleware for at at logging af routes operationer bruger det til hvis er sker en fejl 404 eller 500 at det bliver lang i filer i mappen logs så der for du route fejlen http status og timstamp
+
+## kommandor
+for at install dependencies og devDependencies fra pakage.json skriv `npm i`for at kører denne server så skriv `npm run dev` eller `npm  start`for at instalere en ny pakke/moduler skriv `npm install pakkenavn` for fjerne en pakke/moduler `npm uninstall pakkenavn` og  for at opdatere en pakke skriv `npm  update` 
+
+## mysql dumps
+mysql dumps eller mysql backup finder du i mappen sql 
