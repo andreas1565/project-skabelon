@@ -1,23 +1,80 @@
 <% include partials/header.ejs %>
-    <form  method="post">
+    <form  method="post" id="signupform">
         <div>
                 <label for="email">email</label>
-                <input type="email" name="email" id="email" value="<%= (typeof email != 'undefined')? email: '' %>"> 
+                <input type="text" name="email" id="email" value="<%= (typeof email != 'undefined')? email: '' %>" required>
+                <span id="emailerror" style="color:  red;"></span>
         </div>
         <div>
             <label for="username">brugernavn</label>
-            <input type="text" name="username" id="username" value="<%= (typeof username != 'undefined')? username: '' %>">
+            <span id="usernameerror" style="color:  red;"></span>
+            <input type="text" name="username" id="username" value="<%= (typeof username != 'undefined')? username: '' %>" required>
         </div>
         <div>
             <label for="passphrase">adgangskode</label>
-            <input type="password" name="passphrase" id="passphrase">
+            <span id="passphraseerror" style="color:  red;"></span>
+            <input type="password" name="passphrase" id="passphrase" required>
         </div>
         <div>
-            <label for="retenterpassword">gentag adgangskode</label>
-            <input type="password" name="retenterpassphrase" id="retenterpassphrase">  
+            <label for="retenterpassphrase">gentag adgangskode</label>
+            <span id="retenterpassphraseerror" style="color: red"></span>
+            <input type="password" name="retenterpassphrase" id="retenterpassphrase" required>  
         </div>
         <button type="submit">oprate</button>
     </form>
+    <script>
+        
+        const form = document.querySelector("#signupform");
+        form.addEventListener('submit',  function(event){
+            const email = document.querySelector('#email');
+            const emailerror = document.querySelector('#emailerror');
+            emailerror.innerHTML =  '';
+            const username = document.querySelector('#username');
+            const usernameerror = document.querySelector('#usernameerror');
+            usernameerror.innerHTML =  '';
+            const passphrase = document.querySelector('#passphrase');
+            const passphraseerror = document.querySelector('#passphraseerror');
+            passphraseerror.innerHTML = '';
+            const retenterpassphrase = document.querySelector('#retenterpassphrase');
+            retenterpassphrase.innerHTML =  '';
+            const retenterpassphraseerror = document.querySelector('#retenterpassphraseerror');
+            retenterpassphraseerror.innerHTML =  '';
+            event.preventDefault();
+
+            let succes  = true;
+
+            if(!/.*\S.*/g.test(email.value)){
+                succes =  false;
+                emailerror.innerHTML = "feltet email er tomt";  
+            }
+            if(!/@/g.test(email.value)){
+                succes = false;
+                emailerror.innerHTML ='du mangler et snabel-a i feltet';
+            }
+            if(!/@/g.test(username.value)){
+                succes  = false;
+                usernameerror.innerHTML = 'feltet adganskode er tomt';  
+            }
+            if(/\d/g.test(username.value)){
+                succes  = false;
+                usernameerror.innerHTML = 'du kan ikke skive tal i dette feltet';
+            }
+            if(!/.*\S.*/g.test(passphrase.value)){
+                succes =  false;
+                passphraseerror.innerHTML = "feltet adganskode er tomt";
+            }
+
+            if(passphrase.value != retenterpassphrase.value){
+                passphrase.focus();
+                retenterpassphrase.focus();
+                retenterpassphraseerror.innerHTML = "adganskoden er ikke ens"
+                succes =  false;
+            }
+            if(succes){
+                form.submit();
+            }
+        })
+    </script>
     <p>
         <%= (typeof  errorMessage != "undefined") ?  errorMessage : '' %>
     </p>

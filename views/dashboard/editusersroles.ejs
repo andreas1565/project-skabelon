@@ -2,15 +2,17 @@
     <div class="flex">
                 <% include partials/menu.ejs %> 
             <section>
-                        <a href="/categorie" class="button">tilbage til  userrooles</a>
-                    <form  method="post" class="administrationform">
+                        <a href="/categorie" class="button">tilbage til  userrooles</a> 
+                    <form  method="post" class="administrationform" id="userrolle">
                             <fieldset>
+                                    <span id="nameerror" style="color:  red;"></span>
                                     <label for="name">name</label>
-                                    <input type="text" name="name" value="<%= userroles.name %>">
+                                    <input type="text" name="name" value="<%=userroles.name %>"  id="name" required>
                             </fieldset>
                             <fieldset>
+                                    <span id="levelerror" style="color: red"></span>
                                     <label for="level">level</label>
-                                    <input type="number" name="level" value="<%= userroles.level %>">
+                                    <input type="number" name="level"  value="<%=userroles.level %>"  id="level" required>
                             </fieldset>
                             <button type="submit">opdater et brugerrolle</button>
                     </form>
@@ -19,4 +21,35 @@
                         </p>
             </section>
     </div>
+   <!--  <script>
+                const  form =  document.querySelector('#userrolle');
+                form.addEventListener('submit', function(event){
+                 event.preventDefault();
+                 const name = document.querySelector('#name');
+                 const nameerror = document.querySelector('#nameerror');
+                 nameerror.innerHTML = '';
+                 const level = document.querySelector('#level');
+                 const levelerror = document.querySelector('#levelerror');
+                 levelerror.innerHTML = '';
+         
+                 let succes = true;
+         
+                 if(!/.*\S.*/g.test(name.value)){
+                     succes =  false;
+                     nameerror.innerHTML = "feltet name er tomt";
+             }
+             if(!/.*\S.*/g.test(level.value)){
+                     succes = false;
+                     levelerror.innerHTML =  'feltet level er tomt';
+                 }else if (!/^[\d]$/.test(level.value)){
+                    succes = false;
+                     levelerror.innerHTML =  'kun tal i level';
+                }
+     
+                 if(succes){
+                     form.submit();
+                 }
+                });
+                
+                </script> -->
     <% include partials/footer.ejs %>

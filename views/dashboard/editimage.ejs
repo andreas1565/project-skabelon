@@ -4,13 +4,16 @@
                 <section>
                         <a href="/images" class="button">tilbage til images</a>
                     <h1>rediger billede for produkt <%= image.productsname %></h1>
-                        <form  method="post" class="administrationform" enctype="multipart/form-data">
+                        <form  method="post" class="administrationform" enctype="multipart/form-data" id="uploadimage">
                           <img src="/images/uploads/<%= image.imagesname %>" alt="billede fra databaen"> 
+                          <label for="uploadfield" id="uploadlabel">updater billede til dette produkt</label>
+                          <span id="uploadfielderror" style="color: red"></span>
                                 <div id="uploadbutton">
                                     <figure>
                                         Upload
                                     </figure>
-                                    <input type="file" name="image" id="uploadfield" value="<%= (typeof image != 'undefined')? image: '' %>">
+                                    <!--accept er attribut der specificerer et  filter for hvilke filtyper brugeren kan vælge fra filinput og image/* betyder at Brugeren kan vælge alle billedfiler-->
+                                    <input type="file" name="image" id="uploadfield" value="<%= (typeof image != 'undefined')? image: '' %>" accept="image/*">
                                 </div>
                                 <button type="submit">opdater et product</button>
                             </form>
@@ -19,4 +22,20 @@
                             </p>    
                 </section>
         </div>
+        <script>
+        const form = document.querySelector('#uploadimage');
+            const uploadfield = document.querySelector("#uploadfield");
+            const uploadfielderror = document.querySelector('#uploadfielderror');
+            uploadfielderror.innerHTML = '';
+            let succes = true;
+
+            if (!/\.(jpg|jpeg|png|gif)$/i.test(uploadfield.value)) {
+                succes = false;
+                 uploadfielderror.innerHTML = 'Den uploadede fil er ikke et billede';
+            }
+
+            if(succes){
+                form2.submit();
+            }
+        </script>
             <% include partials/footer.ejs %>

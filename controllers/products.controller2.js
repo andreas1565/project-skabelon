@@ -238,6 +238,10 @@ exports.editproductsimage = async function(req, res, next){
         success = false;
         errorMessage = 'Den uploadede fil er ikke et billede';
     }
+    if(req.files.image.size >  2000000){
+        success = false;
+        errorMessage = 'filen må max fulde 2mb';
+    }
     if(success !== true){
         const productssql =  `SELECT products.id, products.name, products.description, products.price, products.weight, products.amount, fk_categories FROM test3.products
         WHERE id = :id`;

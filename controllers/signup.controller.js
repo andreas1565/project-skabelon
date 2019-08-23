@@ -23,9 +23,9 @@ exports.get = function(req , res , next) {
      * @param {Function} res er en Function callback
      * @param {Function} next er en Function callback og koncekvensen af next er den hopper videre til næste funktion
 */
-exports.post = async function(req, res ,next) {
+exports.post = async function(req, res ,next) {  
     // backend validating 
-    let success = true;
+     let success = true;
     let errorMessage;
     if(req.fields.passphrase === ""){
         errorMessage = "feltet adganskode er tom";

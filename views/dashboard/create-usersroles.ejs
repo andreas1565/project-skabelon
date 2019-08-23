@@ -2,20 +2,53 @@
     <div class="flex">
             <% include partials/menu.ejs %> 
                 <section>
-                        <form  method="post" class="administrationform">
+                        <form  method="post" class="administrationform" id="userrolle">
                                 <fieldset>
+                                        <span id="nameerror" style="color:  red;"></span>
                                         <label for="name">skriv en name på den nye brugerrolle</label>
-                                        <input type="text" name="name" value="<%= (typeof name != 'undefined')? name: '' %>">
+                                        <input type="text" name="name" value="<%= (typeof name != 'undefined')? name: '' %>" id="name" required>
                                 </fieldset>
                                 <fieldset>
+                                    <span id="levelerror" style="color: red"></span>
                                     <label for="level">level</label>
-                                    <input type="number" name="level" value="<%= (typeof level != 'undefined')? level: '' %>">
+                                    <input type="text" name="level" value="<%= (typeof level != 'undefined')? level: '' %>" id="level" required>
                                 </fieldset>
                             <button type="submit">oprate et products</button>
                             </form>
                             <p>
                                 <%= (typeof  errorMessage != "undefined") ?  errorMessage : '' %>
                             </p>  
-                </section>    
+                </section>            
     </div>
+    <script>
+            const  form =  document.querySelector('#userrolle');
+            form.addEventListener('submit', function(event){
+             event.preventDefault();
+             const name = document.querySelector('#name');
+             const nameerror = document.querySelector('#nameerror');
+             nameerror.innerHTML = '';
+             const level = document.querySelector('#level');
+             const levelerror = document.querySelector('#levelerror');
+             levelerror.innerHTML = '';
+     
+             let succes = true;
+     
+             if(!/.*\S.*/g.test(name.value)){
+                     succes =  false;
+                     nameerror.innerHTML = "feltet name er tomt";
+             }
+             if(!/.*\S.*/g.test(level.value)){
+                     succes = false;
+                     levelerror.innerHTML =  'feltet level er tomt';
+                 }else if(!/^[\d]$/.test(level.value)){
+                     succes = false;
+                     levelerror.innerHTML =  'feltet kun tal i feltet';  
+                 }
+     
+                 if(succes){
+                     form.submit();
+                 }
+            });
+            
+            </script> 
     <% include partials/footer.ejs %>
