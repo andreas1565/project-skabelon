@@ -21,7 +21,7 @@
                         </p>
             </section>
     </div>
-   <!--  <script>
+    <script>
                 const  form =  document.querySelector('#userrolle');
                 form.addEventListener('submit', function(event){
                  event.preventDefault();
@@ -33,11 +33,12 @@
                  levelerror.innerHTML = '';
          
                  let succes = true;
-         
+                 // Regular Expression er et objekt, der beskriver et mønster med tegn.
                  if(!/.*\S.*/g.test(name.value)){
                      succes =  false;
                      nameerror.innerHTML = "feltet name er tomt";
              }
+              // Regular Expression er et objekt, der beskriver et mønster med tegn.
              if(!/.*\S.*/g.test(level.value)){
                      succes = false;
                      levelerror.innerHTML =  'feltet level er tomt';
@@ -51,5 +52,5 @@
                  }
                 });
                 
-                </script> -->
+                </script> 
     <% include partials/footer.ejs %>
