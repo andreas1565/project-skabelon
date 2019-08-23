@@ -2,14 +2,16 @@
     <div class="flex">
             <% include partials/menu.ejs %> 
                 <section>
-                        <form  method="post" class="administrationform">
+                        <form  method="post" class="administrationform" id="createproducts">
                                 <fieldset>
+                                    <span id="nameerror" style="color:  red;"></span>
                                         <label for="name">skriv en name på dit product</label>
-                                        <input type="text" name="name" value="<%= (typeof name != 'undefined')? name: '' %>">
+                                        <input type="text" name="name" value="<%= (typeof name != 'undefined')? name: '' %>" id="name" required>
                                 </fieldset>
                                 <fieldset>
+                                    <span id="descriptionerror" style="color: red"></span>
                                     <label for="description">beskrivsel</label>
-                                        <textarea name="description"><%= (typeof description != 'undefined')? description: '' %></textarea>
+                                        <textarea name="description" id="description" required><%= (typeof description != 'undefined')? description: '' %></textarea>
                                 </fieldset>
                                <!--  <div id="uploadbutton">
                                     <figure>
@@ -18,20 +20,24 @@
                                     <input type="file" name="image" id="uploadfield" value="<%= (typeof image != 'undefined')? image: '' %>">
                                 </div> -->
                                 <fieldset>
+                                    <span id="priceerror" style="color: red"></span>
                                     <label for="price">pris</label>
-                                    <input type="number" name="price" value="<%= (typeof price != 'undefined')? price: '' %>">
+                                    <input type="number" name="price" value="<%= (typeof price != 'undefined')? price: '' %>" id="price" required>
                                 </fieldset>
                                 <fieldset>
+                                    <span id="weighterror" style="color: red"></span>
                                     <label for="weight">vægt</label>
-                                    <input type="number" name="weight" value="<%= (typeof weight != 'undefined')? weight: '' %>">
+                                    <input type="text" name="weight" value="<%= (typeof weight != 'undefined')? weight: '' %>" id="weight" required>
                                 </fieldset>
                                 <fieldset>
+                                    <span id="amounterror" style="color: red"></span>
                                     <label for="amount">antal</label>
-                                    <input type="number" name="amount" value="<%= (typeof amount != 'undefined')? amount: '' %>">
+                                    <input type="number" name="amount" value="<%= (typeof amount != 'undefined')? amount: '' %>" id="amount" required>
                                 </fieldset>
                                 <fieldset>
                                     <label for="categories">kategorie</label>
-                                    <select name="categories" style="display:block">
+                                    <span id="categorieserror" style="color: red"></span>
+                                    <select name="categories" style="display:block" id="categories" required>
                                             <% categories.forEach(categorie => { %>
                                             <option value="0" disabled selected hidden>vælg et menu kategorie</option>    
                                             <option value="<%= categorie.id %>">
@@ -47,4 +53,70 @@
                             </p>  
                 </section>    
     </div>
+    <script>
+        const  form =  document.querySelector('#createproducts');
+        form.addEventListener('submit', function(event){
+            event.preventDefault();
+             const name = document.querySelector('#name');
+             const nameerror = document.querySelector('#nameerror');
+             nameerror.innerHTML = '';
+             const description = document.querySelector('#description');
+             const descriptionerror = document.querySelector('#descriptionerror');
+            descriptionerror.innerHTML = '';
+            const price = document.querySelector('#price');
+            const priceerror = document.querySelector('#priceerror');
+            priceerror.innerHTML = '';
+            const weight = document.querySelector('#weight');
+            const weighterror = document.querySelector('#weighterror');
+            weighterror.innerHTML = '';
+            const amount = document.querySelector('#amount');
+            const amounterror = document.querySelector('#amounterror');
+            amounterror.innerHTML = '';
+            const categories = document.querySelector('#categories');
+            categorieserror = document.querySelector('#categorieserror');
+            categorieserror.innerHTML = '';
+            let succes = true; 
+
+           if(!/.*\S.*/g.test(name.value)){
+                succes =  false;
+                nameerror.innerHTML = "feltet name er tomt";
+            }
+            // textarea har ikke en value men dens protype har en
+            if(!/.*\S.*/g.test(description.value)){
+                succes = false;
+                descriptionerror.innerHTML = 'feltet beskrivelse er tomt';
+            }
+            if(!/.*\S.*/g.test(price.value)){
+                succes = false;
+                priceerror.innerHTML =  'feltet prise er tomt';
+            }else if(!/^[\d]$/.test(price.value)){
+                succes = false;
+                priceerror.innerHTML =  'feltet kun tal i feltet';  
+            }
+
+            if(!/.*\S.*/g.test(weight.value)){
+                succes = false;
+                weighterror.innerHTML =  'feltet vægt er tomt';   
+            } else if (!/^[\d]$/.test(weight.value)){
+                succes = false;
+                weighterror.innerHTML =  'feltet kun tal i feltet';
+            }
+
+            if(!/.*\S.*/g.test(amount.value)){
+                succes = false;
+                amounterror.innerHTML = 'feltet antal er tomt';
+            } else if(!/^[\d]$/.test(amount.value)){
+                succes = false;
+                amounterror.innerHTML = 'feltet kun tal i feltet';
+            }
+            if(categories.value === '' || isNaN(categories.value) || categories.value == '0'){
+                succes = false;
+                categorieserror.innerHTML = 'du skal vælge en kategorie';
+            }
+
+            if(succes){
+                form.submit();
+            }
+        }); 
+    </script>
     <% include partials/footer.ejs %>

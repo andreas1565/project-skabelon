@@ -2,14 +2,16 @@
     <div class="flex">
             <% include partials/menu.ejs %> 
         <section>
-                <form  method="post" class="administrationform">
+                <form  method="post" class="administrationform" id="categories">
                         <fieldset>
+                            <span id="nameerror" style="color: red"></span>
                             <label for="name">skriv en name på dit kategorie</label>
-                            <input type="text" name="name" value="<%= (typeof name != 'undefined')? name: '' %>">
+                            <input type="text" name="name" id="name" value="<%= (typeof name != 'undefined')? name: '' %>" required>
                         </fieldset>
                         <fieldset>
+                            <span id="descriptionerror" style="color: red"></span>
                             <label for="description">beskrivsel</label>
-                            <textarea name="description"><%= (typeof description != 'undefined')? description: '' %></textarea>    
+                            <textarea name="description" id="description" required><%= (typeof description != 'undefined')? description: '' %></textarea>    
                         </fieldset>
                         <button type="submit">oprate et kategorie</button>
                     </form>
@@ -18,4 +20,33 @@
                     </p>
         </section>
     </div>
+    <script>
+        const  form =  document.querySelector('#categories');
+        form.addEventListener('submit', function(event){
+            event.preventDefault();
+           const name = document.querySelector('#name');
+           const nameerror = document.querySelector('#nameerror');
+           nameerror.innerHTML = '';
+           const description = document.querySelector('#description');
+           const descriptionerror = document.querySelector('#descriptionerror');
+           descriptionerror.innerHTML = '';
+
+           let succes = true;
+
+
+           if(!/.*\S.*/g.test(name.value)){
+                     succes =  false;
+                     nameerror.innerHTML = "feltet name er tomt";
+             }
+
+             if(!/.*\S.*/g.test(description.value)){
+                succes = false;
+                descriptionerror.innerHTML = 'feltet beskrivelse er tomt';
+            }
+
+            if(succes){
+                form.submit();
+            }  
+        });
+    </script>
     <% include partials/footer.ejs %>

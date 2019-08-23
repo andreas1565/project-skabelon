@@ -67,12 +67,16 @@ exports.editimages = async function(req, res, next){
         success = false;
         errorMessage = 'Den uploadede fil er ikke et billede';
     }
+    if(req.files.image.size >  2000000){
+        success = false;
+        errorMessage = 'filen må max fulde 2mb';
+    }
     if(success !== true){
         const imagesql =  `SELECT  images.id, images.name as imagesname, products.name as productsname FROM images
         INNER JOIN products
         ON images.fk_product = products.id`;
         const [rows, fieilds] = await db.query(imagesql, { id: req.params.id });
-        res.render('dashboard/editimage', {image: rows[0]}); 
+        res.render('dashboard/editimage', {image: rows[0], errorMessage}); 
     }
     try {
         const imagename = 'SELECT id, name FROM images WHERE  id = :id';

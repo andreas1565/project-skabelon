@@ -82,14 +82,16 @@ exports.edituser = async function(req, res, next){
         errorMessage = "feltet brger email er tom";
         success = false;
     }
-    if(success !== true){
-        const usersql = `SELECT users.id, users.username, profiles.email FROM users
+    if(success  !== true){
+        const rolessql = `SELECT id AS rolesid, name AS rolesname FROM test3.roles WHERE name != 'superadmin' `;
+        const [rows2] = await db.query(rolessql);
+        const usersql = `SELECT users.id, users.username, profiles.email, fk_role FROM users
         INNER JOIN profiles
         ON users.fk_profile = profiles.id 
         WHERE  users.id = :id`;
         const [rows, fieilds ] = await db.query(usersql, {id: req.params.id});
-        res.render('dashboard/edituser', { user: rows[0]});;
-        return;
+        res.render('dashboard/edituser', { errorMessage,user: rows[0], usersroles: rows2});
+        return;  
     }
     try {
         /*
@@ -191,6 +193,25 @@ exports.getusersrolesform = function(req , res , next) {
 */
 
 exports.createusersroles = async function(req, res ,next) {
+    let success = true;
+    let errorMessage;
+    if(req.fields.name === ""){
+        errorMessage = "feltet brger navn er tom";
+        success = false;
+    }
+    if(req.fields.level === ""){
+        errorMessage = "feltet brger email er tom";
+        success = false;
+    }
+    if(isNaN(req.fields.level) === ""){
+        success = false;
+        errorMessage = 'du kan kun skrive tal i level feltet';
+    }
+
+    if(success !== true){
+        res.render('dashboard/create-usersroles', {errorMessage});
+    }
+
    try {
        const usersql = `INSERT INTO roles SET name = :name, level = :level`;
        const user = await db.query(usersql, {
@@ -266,6 +287,28 @@ exports.showuserrolesform = async function(req, res, next){
      * @param {Function} next er en Function callback og koncekvensen af next er den hopper videre til næste funktion 
 */
 exports.editusersroles = async function(req, res, next){
+    let success = true;
+    let errorMessage;
+    if(req.fields.name === ""){
+        errorMessage = "feltet brger navn er tom";
+        success = false;
+    }
+    if(req.fields.level === ""){
+        errorMessage = "feltet brger email er tom";
+        success = false;
+    }
+    if(isNaN(req.fields.level) === ""){
+        success = false;
+        errorMessage = 'du kan kun skrive tal i level feltet';
+    }
+    if(success !==  true){
+        const usersql = `SELECT id, name, level FROM roles
+        WHERE id = :id`;
+        const [rows, fieilds ] = await db.query(usersql, {id: req.params.id});
+        res.render('dashboard/editusersroles', { userroles: rows[0], errorMessage});
+        return; 
+    }
+
   try {
         const categoriesql = `UPDATE roles SET name = :name, level = :level  WHERE id = :id `;
         const  categorie = await db.query(categoriesql, {

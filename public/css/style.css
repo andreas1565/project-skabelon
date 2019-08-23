@@ -148,9 +148,9 @@ table td, th{
  }
 #uploadbutton{
     position: relative; /* position relative kan positioneres udfra elementet nuværende position  */
+    cursor: pointer;
 }
 #uploadbutton>figure{
-    margin-top: 2%;
     position: absolute; /* position absolute positionere sig udfra sit parent element som skal være relative hvis det ikke er relative så vil den være i toppen af dokumentet */
     height: 3em;
     padding: 1em 2.5em 0;
@@ -158,6 +158,9 @@ table td, th{
     top: 0;
     left: 50%; /* for at den næsten kommer i midten  */
     transform: translateX(-50%);/* enten minimere eller udvidere elementet*/
+}
+#uploadlabel{
+    margin-bottom: 5%;
 }
 
 @media screen and (max-width:800px){

@@ -62,7 +62,6 @@ exports.logincheck = async function(req, res, next){
         req.app.locals.isloggedin = true;
         req.app.locals.userId = rows[0].id;
         req.app.locals.userlevel = rows[0].level;
-        console.log(req.app.locals.userlevel);
     } catch (error) {
         console.log(error);
         res.send('felj');

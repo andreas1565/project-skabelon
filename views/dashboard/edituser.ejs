@@ -4,14 +4,16 @@
                 <section>
                         <a href="/categorie" class="button">tilbage til  users</a>
                     <h1>rediger <%= user.username %></h1>
-                    <form  method="post"  class="administrationform">
+                    <form  method="post"  class="administrationform" id="userrolle">
                         <fieldset>
+                                <span id="usernameerror" style="color: red"></span>
                                 <label for="username">brugernavn</label>
-                                <input type="text" name="username" value="<%= user.username %>">
+                                <input type="text" name="username" value="<%= user.username %>" id="username" required>
                         </fieldset>
                         <fieldset>
+                            <span id="emailerror" style="color:  red;"></span>
                             <label for="email">email</label>
-                            <input type="email" name="email" id="email" value="<%= user.email %>">
+                            <input type="email" name="email" id="email" value="<%= user.email %>" id="email" required>
                         </fieldset>
                         <button type="submit">gem</button>
                     </form>
@@ -30,8 +32,42 @@
                             <button type="submit">upgarder userrolle</button>
                     </form>
                     <%  }%>
+                    <p>
+                            <%= (typeof  errorMessage != "undefined") ?  errorMessage : '' %>
+                    </p>
                 </section>
            
     </div>
-  
+    <script>
+            const  form =  document.querySelector('#userrolle');
+            form.addEventListener('submit', function(event){
+             event.preventDefault();
+             const email = document.querySelector('#email');
+            const emailerror = document.querySelector('#emailerror');
+            emailerror.innerHTML =  '';
+            const username = document.querySelector('#username');
+            const usernameerror = document.querySelector('#usernameerror');
+            usernameerror.innerHTML =  '';
+     
+             let succes = true;
+     
+             if(!/.*\S.*/g.test(email.value)){
+                succes =  false;
+                emailerror.innerHTML = "feltet email er tomt";  
+            }
+            if(!/@/g.test(email.value)){
+                succes = false;
+                emailerror.innerHTML ='du mangler et snabel-a i feltet';
+            }
+            if(!/.*\S.*/g.test(username.value)){
+                succes =  false;
+                usernameerror.innerHTML = "feltet username er tomt";
+            }
+     
+                 if(succes){
+                     form.submit();
+                 }
+            });
+            
+            </script> 
     <% include partials/footer.ejs %>

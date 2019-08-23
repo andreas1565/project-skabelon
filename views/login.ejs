@@ -1,16 +1,49 @@
 <% include partials/header.ejs %>
-    <form method="post">
+    <form method="post"  id="loginform">
         <fieldset>
             <label for="username">Brugernavn</label>
-            <input type="text" name="username">
+            <input type="text" name="username" id="username"  required>
+            <span id="usernameerror" style="color:  red;"></span>
         </fieldset>
         <fieldset>
             <label for="password">Adgangskode</label>
-            <input type="password" name="password">
+            <input type="password" name="password" id="password" required>
+            <span id="passworderror" style="color:  red;"></span>
         </fieldset>
         <button type="submit">log in</button>
     </form>
     <p>
         <%= (typeof  errorMessage != "undefined") ?  errorMessage : '' %>
     </p>
+    <script>
+    const form = document.querySelector('#loginform');
+    form.addEventListener('submit', function(event){
+
+        const username = document.querySelector('#username');
+        const usernameerror = document.querySelector('#usernameerror');
+        usernameerror.innerHTML = "";
+        const password = document.querySelector("#password");
+        const passworderror = document.querySelector('#passworderror');
+        passworderror.innerHTML = "";
+        event.preventDefault();
+        let succes  = true;
+
+        if(!/.*\S.*/g.test(username.value)){
+        succes =  false;
+        usernameerror.innerHTML = "feltet username er tomt";
+        }
+        else if(/\d/g.test(username.value)){
+                succes  = false;
+                usernameerror.innerHTML = 'du kan ikke skive tal i dette feltet';
+        }
+        if(!/.*\S.*/g.test(password.value)){
+                succes =  false;
+                passworderror.innerHTML = "feltet adganskode er tomt";
+        }
+
+        if(succes){
+            form.submit();
+        }
+    })
+    </script>
     <% include partials/footer.ejs %>
