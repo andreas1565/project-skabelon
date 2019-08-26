@@ -24,6 +24,8 @@
         </div>
         <script>
         const form = document.querySelector('#uploadimage');
+        event.preventDefault();
+          form.addEventListener('submit',  function(event){
             const uploadfield = document.querySelector("#uploadfield");
             const uploadfielderror = document.querySelector('#uploadfielderror');
             uploadfielderror.innerHTML = '';
@@ -37,5 +39,6 @@
             if(succes){
                 form2.submit();
             }
+          });
         </script>
             <% include partials/footer.ejs %>
