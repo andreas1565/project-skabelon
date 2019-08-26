@@ -2,7 +2,7 @@
         <div class="flex">
                 <% include partials/menu.ejs %> 
                 <section>
-                        <a href="/products" class="button">tilbage til products</a>
+                        <a href="/dashboardproducts" class="button">tilbage til products</a>
                         <form  method="post" class="administrationform" id="editproduct">
                                 <fieldset>
                                         <span id="nameerror" style="color:  red;"></span>
@@ -41,7 +41,7 @@
                                 </fieldset>
                                 <button type="submit">opdater et product</button>
                             </form>
-                            <form action="/editproduct/image/<%= product.id %>" method="POST" enctype="multipart/form-data" class="administrationform" id="uploadimage">
+                            <form action="/dashboardeditproduct/image/<%= product.id %>" method="POST" enctype="multipart/form-data" class="administrationform" id="uploadimage">
                                 <!--  <img src="/images/resize/<%= product.image %>" alt="billede fra databaen"> -->
                                <!--  <img src="/images/uploads/<%= product.image %>" alt="billede fra databaen"> -->
                                <label for="uploadfield" id="uploadlabel">upload et billede til dette produkt</label>
@@ -53,6 +53,9 @@
                                      <!--accept er attribut der specificerer et  filter for hvilke filtyper brugeren kan vælge fra filinput og image/* betyder at Brugeren kan vælge alle billedfiler-->
                                     <input type="file" name="image" id="uploadfield" accept="image/*">
                                 </div>
+                                <fieldset>
+                                        <input  name="published" value="1" type="checkbox" placeholder="skive den published">
+                                </fieldset>
                                 <button type="submit">opdater et product</button>
                             </form>
                             <p>

@@ -1,4 +1,21 @@
 <% include partials/header.ejs %>
     <h1><%= title %></h1>
     <%= content %>
+    <form action="/soeg/" method="GET" id="mobilform">
+        <input type="text" name="search" id="searchword" placeholder="søg ord">
+        <button type="submit">Søg</button>
+     </form>
+    <article>
+        <img src="/images/uploads/<%= froend.image %>" alt="billede fra databaen">
+        <p><%= froend.text %></p>
+    </article>
+    <section class="grid">
+            <% ramdomproducts.forEach(ramdomproduct => { %>
+            <section class="grid-item">
+                <a href="/singelproduct/<%= ramdomproduct.productsid %>"><%=  ramdomproduct.imagesname != null ? ramdomproduct.productsname : '' %></a>
+                <img src="/images/uploads/<%=ramdomproduct.imagesname %>">
+                <p class="categorietext" style="display: none"><%= ramdomproduct.fk_categories %></p>
+            </section>
+            <% }); %>
+    </section>
     <% include partials/footer.ejs %>

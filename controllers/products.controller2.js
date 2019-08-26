@@ -2,6 +2,55 @@ const db = require('../config/sql');
 const fs = require('fs');
 const {join} = require('path');   
 
+ exports.getfroendproducts = async function(req, res, next){
+    const categoriessql = `SELECT id, name FROM test3.categories`;
+    const productssql  = `SELECT  images.name AS imagesname, products.name AS productsname, products.id AS productsid, products.fk_categories  
+    FROM products
+    LEFT OUTER JOIN images
+    ON images.fk_product = products.id AND images.primary = 1`;
+    const [rows] =  await db.query(productssql);
+    const [rows2] = await db.query(categoriessql);
+    res.render('products', { title: 'products' ,products: rows, categories: rows2});
+} 
+
+exports.getfroendproductswithcategorie = async function(req, res, next){
+    const categoriessql = `SELECT id, name FROM test3.categories`;
+    const productssql  = `SELECT  images.name AS imagesname, products.name AS productsname, products.id AS productsid, products.fk_categories  
+    FROM products
+    LEFT OUTER JOIN images
+    ON images.fk_product = products.id AND images.primary = 1 WHERE fk_categories =  :categorieid`;
+    const [rows] =  await db.query(productssql, {categorieid: req.params.categorieid});
+    const [rows2] = await db.query(categoriessql);
+    res.render('products', { title: 'products' ,products: rows, categories: rows2});
+}
+
+exports.singelproduct = async function(req, res, next){
+    const productssql = `SELECT images.name AS imagesname, products.name AS productsname, products.id AS productsid, products.description, products.price, products.weight, products.amount FROM test3.images
+    INNER JOIN products
+    ON images.fk_product = products.id
+    WHERE products.id = :id AND images.primary = 1`;
+    const allimagessql = `SELECT name  FROM images
+    WHERE fk_product = :id`;
+    const [product] = await db.query(productssql, {id: req.params.id});
+    const [images] = await db.query(allimagessql, {id: req.params.id});
+    res.render('singelproduct', { title: 'enkel product' ,product: product[0], images});
+}
+exports.productsearch = async function(req, res, next){
+    const searchsql = `SELECT  images.name AS imagesname, products.name AS productsname, products.id AS productsid, categories.name AS categoriesname  
+    FROM products
+    LEFT OUTER JOIN images
+    ON images.fk_product = products.id AND images.primary = 1
+    INNER JOIN categories
+    ON products.fk_categories = categories.id
+    WHERE products.name LIKE :searchproduct OR categories.name LIKE :searchcategorie`;
+    const [searchs] =  await db.query(searchsql, {
+        searchproduct:  req.query.search,
+        searchcategorie: req.query.search
+    });
+    res.render('soeg', {'searchs': searchs});
+}
+
+
 /**
  * @module controler/getproductform
 */
@@ -91,7 +140,7 @@ exports.createproducts = async function(req, res, next){
            amount: req.fields.amount,
            categories: req.fields.categories
        });
-       res.redirect('products');
+       res.redirect('/dashboardproducts');
     } catch (error) {
         console.log(error);
         if(error.code === 'ER_DUP_ENTRY'){
@@ -223,7 +272,7 @@ exports.editproducts = async  function(req, res, next){
             categories: req.fields.categories,
             id: req.params.id
         });
-        res.redirect('/editproduct/' + req.params.id);
+        res.redirect('/dashboardeditproduct/' + req.params.id);
     } catch (error) {
         console.log(error);
         res.send('fejl'); 
@@ -261,11 +310,13 @@ exports.editproductsimage = async function(req, res, next){
          // writeFileSync og  uploaddir er det sted i applicationen hvor filen skal ligge newfile er filens nye navn og data er den midlertidige mappe hvor dataen skal hentes fra
          fs.writeFileSync(join(__dirname, "../public/images/uploads", newFileName), tempfile);
         // her vælger jeg navnet og id på billedet kommer fra databasen fra det enkelte product og upload den nye til uploaddir 
-        const result = await db.query('INSERT INTO images SET name = :name, fk_product = :productid',{
+        const result = await db.query('INSERT INTO images SET name = :name, fk_product = :productid, images.primary = :published' ,{
             name: newFileName,
-            productid: req.params.id
+            productid: req.params.id,
+            published: req.fields.published
         });
-        res.redirect('/editproduct/' + req.params.id);
+        console.log(result);
+        res.redirect('/dashboardeditproduct/' + req.params.id);
     } catch (error) {
         console.log(error);
         res.send('fejl'); 
@@ -285,7 +336,7 @@ exports.deleteproducts = async function(req, res, next){
     try {    
         const productssql = `DELETE FROM products WHERE id = :id`;
         await db.query(productssql, {id: req.params.id}); 
-        res.redirect('/products');
+        res.redirect('/dashboardproducts');
     } catch (error) {
         console.log(error);
         res.send('fejl'); 

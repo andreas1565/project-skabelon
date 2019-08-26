@@ -18,7 +18,7 @@
                         <button type="submit">gem</button>
                     </form>
                     <% if(userlevel >= 99 ){ %>
-                    <form action="/usersupgrade/<%= user.id %>" method="post" class="administrationform">
+                    <form action="/dashboardusersupgrade/<%= user.id %>" method="post" class="administrationform">
                             <fieldset>
                                         <label for="usersroles">brugerrolle</label>
                                         <select name="usersroles" style="display:block" id="usersroles">

@@ -57,7 +57,7 @@ exports.createcategorie = async function(req, res ,next) {
         name:  req.fields.name,
         description: req.fields.description
        });
-       res.redirect('categorie');
+       res.redirect('/dashboardcreatecategorie');
    } catch (error) {
        console.log(error);
        if(error.code === 'ER_DUP_ENTRY'){
@@ -179,7 +179,7 @@ exports.deletecategorie = async function(req, res, next){
     try {
         const categoriesql = `DELETE FROM categories WHERE id = :id`;
         await db.query(categoriesql, {id: req.params.id}); 
-        res.redirect('/categorie');
+        res.redirect('/dashboardcreatecategorie');
     } catch (error) {
         console.log(error);
         res.send('fejl'); 

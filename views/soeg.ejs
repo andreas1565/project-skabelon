@@ -1,0 +1,11 @@
+<% include partials/header.ejs %>
+
+<section>
+        <section>
+                <% searchs.forEach(search => {%>
+                <a href="/singelproduct/<%= search.productsid %>"><%= search.productsname %></a>
+                <img src="/images/uploads/<%= search.imagesname %>" alt="">
+                <%} ); %>
+        </section>
+</section>
+<% include partials/footer.ejs %>
