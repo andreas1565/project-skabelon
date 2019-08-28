@@ -7,4 +7,13 @@
     <title>verdens best hjemme side</title>
 </head>
 <body>
-        <%- isloggedin ? "<a href='/logout'>log ud</a>": "<a href='/login'>log in</a>" %>    
+        <header>
+            <nav>
+                <ul>
+                    <li><a href="/">hjem</a></li>
+                    <li><a href="/products">produkter</a></li>
+                    <li><a href="/soeg/">søg</a></li>
+                    <%- isloggedin ? "<a href='/logout'>log ud</a>": "<a href='/login'>log in</a>" %>    
+                </ul>
+            </nav>
+        </header>

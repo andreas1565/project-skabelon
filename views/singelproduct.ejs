@@ -8,16 +8,25 @@
                     <p><%= product.description %></p>
                     <p><%= product.price %>kr</p>
                     <p><%= product.weight  %></p>
-                    <p><%=  product.amount %></p>
-                  
+                    <p><%=  product.amount %></p>       
         </div>
     </section>
     
     <section>
+        <h2>andre billeder der tilhøre dette produkt</h2>
         <% if(images.length > 0){ %>
         <% images.forEach(image => { %>
-            <img src="/images/uploads/<%=  image.name != null ?  image.name : '' %>">
+            <img src="/images/uploads/<%=  image.name != null ?  image.name : '' %>" width="100px">
         <% }); %>
         <% } %>    
-    </section>    
+    </section>
+    <div>
+        <h2>andre produkt vi tro du synes om</h2>
+            <% if(outerProducts.length > 0){ %>
+                <% outerProducts.forEach(outerProduct => { %>
+                    <h3></h3>
+                    <a href="/singelproduct/<%= outerProduct.id %>"><%= outerProduct.name %></a>
+                <% }); %>    
+            <% } %>      
+    </div>  
 <% include partials/footer.ejs %>

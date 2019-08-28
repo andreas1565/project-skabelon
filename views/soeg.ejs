@@ -40,6 +40,8 @@
                 <% searchs.forEach(search => {%>
                 <a href="/singelproduct/<%= search.productsid %>"><%= search.productsname %></a>
                 <img src="/images/uploads/<%= search.imagesname %>" width="100px" alt="">
+                <p><%= search.price  %> kr</p>
+                <p><%= search.description %></p>
                 <%} ); %>
                 <% }%>
         </section>
