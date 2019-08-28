@@ -90,11 +90,12 @@ exports.getfroendproductswithcategorie = async function(req, res, next){
      * @param {Function} next er en Function callback 
 */
 exports.singelproduct = async function(req, res, next){
-    const productssql = `SELECT  images.name AS imagesname, products.name AS productsname, products.id AS productsid, products.fk_categories  
+    const productssql = `SELECT products.id AS productsid,  products.name AS productsname, products.description,  products.price, products.weight, products.amount, images.name AS imagesname  
     FROM products
     LEFT OUTER JOIN images
     ON images.fk_product = products.id AND images.primary = 1
     WHERE products.id = :id `;
+
     const allimagessql = ` SELECT name, images.primary FROM images
     WHERE fk_product = :id AND images.primary = 0
     ORDER BY images.primary DESC `;
