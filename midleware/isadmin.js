@@ -13,6 +13,7 @@ module.exports =  async function(req, res, next){
         const [rows] = await db.query(usersql, {id: req.session.user});
 
         if(rows[0].level >= 99){
+            // køre vider til det næste middelware
             return next();
         }
         res.redirect('/');

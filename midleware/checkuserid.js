@@ -5,7 +5,7 @@ module.exports = function(req, res, next){
          // return stopper fuction
         return next(); // er en Function callback og koncekvensen af next er den hopper videre til næste funktion
     }else{
-        res.redirect("/profile/" + req.session.user);
+        res.redirect("/dashboard/profile/" + req.session.user);
          // return stopper fuction
         return;
     }

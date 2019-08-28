@@ -9,20 +9,27 @@
                                             <th></th>
                                             <th>billede</th>
                                             <th>product navn</th>
+                                            <th>primary</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                             <% images.forEach(image => { %>
                                         <tr>
                                             <td>
-                                                <a href="/editimage/<%= image.id %>" class="fas fa-edit"></a>
-                                                <a href="/deleteimage/<%= image.id %>" class="fas fa-trash-alt"></a>
+                                                <a href="/dashboard/edit/image/<%= image.id %>" class="fas fa-edit"></a>
+                                                <a href="/dashboard/deleteimage/<%= image.id %>" class="fas fa-trash-alt"></a>
                                             </td>
                                             <td> 
+                                                <%=  image.id  %>
                                                 <img src="/images/uploads/<%= image.imagesname %>" alt="" width="100px">
                                             </td>
                                             <td>
-                                                <%=  image.productsname %>
+                                                    <%=  image.productsid %> <%=  image.productsname %>
+                                            </td>
+                                            <td>
+                                                <%if(image.isprimary != 1){  %>
+                                                    <a href="/dashboard/setprimary/<%= image.productsid %>/<%= image.id %>">primary</a>
+                                                 <% }%>   
                                             </td>
                                         </tr>
                                         <% }); %>

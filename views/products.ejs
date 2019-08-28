@@ -1,6 +1,6 @@
 <% include partials/header.ejs %>
     <h1><%= title %></h1>
-    <section>
+    <div>
             <select name="categories" style="display:block" id="categories" onchange="filter()">
                     <option value="0">vælg et menu kategorie</option>    
                     <% categories.forEach(categorie => { %>
@@ -9,21 +9,21 @@
                     </option>
                     <% }); %>
             </select>
-    </section>
+        </div>
     <section class="grid">
         <% products.forEach(product => { %>
-        <section class="grid-item">
-            <!-- <a href="/singelproduct/<%= product.productsid %>"><%= product.productsname %></a> -->
-            <a href="/singelproduct/<%= product.productsid %>"><%=  product.imagesname != null ? product.productsname : '' %></a>
+        <div class="grid-item">
+            <a href="/singelproduct/<%= product.productsid %>"><%= product.productsname %></a>
+           <!--  <a href="/singelproduct/<%= product.productsid %>"><%=  product.imagesname != null ? product.productsname : '' %></a> -->
             <img src="/images/uploads/<%=  product.imagesname != null ? product.imagesname : 'testforside.jpg' %>">
             <p class="categorietext"><%= product.fk_categories %></p>
-        </section>
+        </div>
         <% }); %>
     </section>
     <script>
         function filter(){
             const select = document.querySelector('#categories');
-            console.log(select.value);
+          //  console.log(select.value);
             window.location.replace('/products/'+ select.value); 
         }
 

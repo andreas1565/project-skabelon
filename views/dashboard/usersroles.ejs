@@ -3,7 +3,7 @@
             <% include partials/menu.ejs %>
             <main>
                     <section>
-                            <a href="/createusersroles" class="button">oprate et brugerroller</a>
+                            <a href="/dashboard/create/users/roles" class="button">oprate et brugerroller</a>
                             <table>
                                     <thead>
                                         <tr>
@@ -17,8 +17,8 @@
                                             <% usersroles.forEach(usersrole => { %>
                                         <tr>
                                             <td>
-                                                <a href="/editusersroles/<%= usersrole.id %>" class="fas fa-edit"></a>
-                                                <a href="/deletusersroles/<%= usersrole.id %>" class="fas fa-trash-alt"></a>
+                                                <a href="/dashboard/edit/users/roles/<%= usersrole.id %>" class="fas fa-edit"></a>
+                                                <a href="/dashboard/delet/users/roles/<%= usersrole.id %>" class="fas fa-trash-alt"></a>
                                             </td>
                                             <td> 
                                                 <%= usersrole.name %>

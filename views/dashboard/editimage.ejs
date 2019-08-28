@@ -2,7 +2,7 @@
         <div class="flex">
                 <% include partials/menu.ejs %> 
                 <section>
-                        <a href="/images" class="button">tilbage til images</a>
+                        <a href="/dashboard/images" class="button">tilbage til images</a>
                     <h1>rediger billede for produkt <%= image.productsname %></h1>
                         <form  method="post" class="administrationform" enctype="multipart/form-data" id="uploadimage">
                           <img src="/images/uploads/<%= image.imagesname %>" alt="billede fra databaen"> 

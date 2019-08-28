@@ -1,7 +1,16 @@
 const db = require('../config/sql');
 const fs = require('fs');
 const {join} = require('path');   
+/**
+ * @module controler/getfroendproducts 
+*/
 
+/**
+     * denne fuktion renderer en template med de data fra produkttabellen som jeg har valgt og looper igennem alle produkter så de vist ude på siden det samme er gældende for kategorier den bliver  bare loopet igennem et select
+     * @param {Object} req er et object
+     * @param {Function} res er en Function callback
+     * @param {Function} next er en Function callback 
+*/
  exports.getfroendproducts = async function(req, res, next){
     const categoriessql = `SELECT id, name FROM test3.categories`;
     const productssql  = `SELECT  images.name AS imagesname, products.name AS productsname, products.id AS productsid, products.fk_categories  
@@ -12,9 +21,14 @@ const {join} = require('path');
     const [rows2] = await db.query(categoriessql);
     res.render('products', { title: 'products' ,products: rows, categories: rows2});
 } 
-
+/**
+     * denne fuktion renderer en template med de produkter som har en specifik kategori
+     * @param {Object} req er et object
+     * @param {Function} res er en Function callback
+     * @param {Function} next er en Function callback 
+*/
 exports.getfroendproductswithcategorie = async function(req, res, next){
-    const categoriessql = `SELECT id, name FROM test3.categories`;
+    const categoriessql = `SELECT id, name FROM test3.categories `;
     const productssql  = `SELECT  images.name AS imagesname, products.name AS productsname, products.id AS productsid, products.fk_categories  
     FROM products
     LEFT OUTER JOIN images
@@ -23,31 +37,77 @@ exports.getfroendproductswithcategorie = async function(req, res, next){
     const [rows2] = await db.query(categoriessql);
     res.render('products', { title: 'products' ,products: rows, categories: rows2});
 }
-
+/**
+     * denne fuktion renderer en template med de produkter hvor der er valgt det enkelt produkt id kommer fra et link fra /produkter og bliver hentet fra URL´ en med req.params.id
+     * @param {Object} req er et object
+     * @param {Function} res er en Function callback
+     * @param {Function} next er en Function callback 
+*/
 exports.singelproduct = async function(req, res, next){
-    const productssql = `SELECT images.name AS imagesname, products.name AS productsname, products.id AS productsid, products.description, products.price, products.weight, products.amount FROM test3.images
-    INNER JOIN products
-    ON images.fk_product = products.id
-    WHERE products.id = :id AND images.primary = 1`;
-    const allimagessql = `SELECT name  FROM images
-    WHERE fk_product = :id`;
+    const productssql = `SELECT  images.name AS imagesname, products.name AS productsname, products.id AS productsid, products.fk_categories  
+    FROM products
+    LEFT OUTER JOIN images
+    ON images.fk_product = products.id AND images.primary = 1
+    WHERE products.id = :id `;
+    const allimagessql = ` SELECT name, images.primary FROM images
+    WHERE fk_product = :id AND images.primary = 0
+    ORDER BY images.primary DESC `;
     const [product] = await db.query(productssql, {id: req.params.id});
     const [images] = await db.query(allimagessql, {id: req.params.id});
     res.render('singelproduct', { title: 'enkel product' ,product: product[0], images});
 }
+/**
+     * til at starte med kan man kun se formen på siden hvis man bare klikker søg uden at have skrevet noget så vil man få vist alle produkter men hvis man skriver noget i felterne vid deres søgeresultat blive sendt med ud på siden  
+     * @param {Object} req er et object
+     * @param {Function} res er en Function callback
+     * @param {Function} next er en Function callback 
+*/
 exports.productsearch = async function(req, res, next){
-    const searchsql = `SELECT  images.name AS imagesname, products.name AS productsname, products.id AS productsid, categories.name AS categoriesname  
+   /*  const searchsql = `SELECT images.name AS imagesname, products.name AS productsname, products.id AS productsid, categories.name AS categoriesname 
     FROM products
     LEFT OUTER JOIN images
     ON images.fk_product = products.id AND images.primary = 1
     INNER JOIN categories
     ON products.fk_categories = categories.id
-    WHERE products.name LIKE :searchproduct OR categories.name LIKE :searchcategorie`;
-    const [searchs] =  await db.query(searchsql, {
-        searchproduct:  req.query.search,
-        searchcategorie: req.query.search
-    });
-    res.render('soeg', {'searchs': searchs});
+    WHERE products.name LIKE :searchproduct OR categories.name LIKE :searchcategorie OR products.price LIKE :searchprice OR products.description LIKE :searchdescription`; */
+    const categoriesql = `SELECT id,  name FROM categories`;
+    const [categories] =  await db.query(categoriesql);
+    let values = req.query;
+    if(Object.keys(req.query).length == 0){
+        res.render('soeg', {categories, values});
+    }else{
+        let sql_query = `
+        SELECT images.name AS imagesname, products.name AS productsname, products.id AS productsid, categories.name AS categoriesname, products.price 
+        FROM products
+        LEFT OUTER JOIN images
+        ON images.fk_product = products.id AND images.primary = 1
+        INNER JOIN categories
+        ON products.fk_categories = categories.id
+        WHERE 1=1`;
+        let sql_params = {};
+        if(req.query.name != undefined && req.query.name != ""){
+            sql_query += ' AND products.name LIKE :searchproduct ';
+            sql_params.searchproduct = '%' + req.query.name + '%';
+        }
+        if(req.query.minimumPris != undefined && req.query.minimumPris != ""){
+            sql_query += ' AND products.price  >= :minimumPris ';
+            sql_params.minimumPris =  req.query.minimumPris  ;
+        }
+        if(req.query.maximumPris != undefined && req.query.maximumPris != ""){
+            sql_query += ' AND products.price  >= :maximumPris ';
+            sql_params.maximumPris =  req.query.maximumPris  ;
+        }
+        if(req.query.description != undefined || req.query.description != ""){
+            sql_query += ' AND products.description LIKE :searchdescription ';
+            sql_params.searchdescription = '%'+  req.query.description +'%';
+        }
+        if(req.query.categories != undefined && req.query.categories != ""){
+            sql_query +=  ' AND  categories.id LIKE :searchcategorie ';
+            sql_params.searchcategorie =req.query.categories;
+        }
+        const [searchs] =  await db.query(sql_query, sql_params);
+        res.render('soeg',{'searchs': searchs, categories,  values});
+    }
 }
 
 
@@ -309,13 +369,25 @@ exports.editproductsimage = async function(req, res, next){
          const newFileName = `${Date.now()}_${ req.files.image.name}`;
          // writeFileSync og  uploaddir er det sted i applicationen hvor filen skal ligge newfile er filens nye navn og data er den midlertidige mappe hvor dataen skal hentes fra
          fs.writeFileSync(join(__dirname, "../public/images/uploads", newFileName), tempfile);
+        // her sætter jeg publiched til 0 hvis det ikke allerede er 0 
+         const published = 0; 
+         // hvis published ikke er undefined eller ==1 
+         if(req.fields.published != undefined && req.fields.published == 1){
+             published = 1;
+         }
+         // jeg opdatere primary til at være 0 hvis den er 1 skal den ændre status tilbage til 0 så jeg nedenunder kan ændre værdien til 1 
+         if(published == 1){
+             await db.query('update images set images.primary = 0 WHERE fk_product = :productid', {
+                productid: req.params.id 
+             });
+         }
         // her vælger jeg navnet og id på billedet kommer fra databasen fra det enkelte product og upload den nye til uploaddir 
         const result = await db.query('INSERT INTO images SET name = :name, fk_product = :productid, images.primary = :published' ,{
             name: newFileName,
             productid: req.params.id,
-            published: req.fields.published
+            published: published
         });
-        console.log(result);
+       // console.log(result);
         res.redirect('/dashboardeditproduct/' + req.params.id);
     } catch (error) {
         console.log(error);

@@ -51,9 +51,9 @@
                 succes = false;
                 emailerror.innerHTML ='du mangler et snabel-a i feltet';
             }
-            if(!/@/g.test(username.value)){
+            if(!/.*\S.*/g.test(username.value)){
                 succes  = false;
-                usernameerror.innerHTML = 'feltet adganskode er tomt';  
+                usernameerror.innerHTML = 'feltet username er tomt';  
             }
             if(/\d/g.test(username.value)){
                 succes  = false;
