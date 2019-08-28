@@ -50,7 +50,7 @@ exports.post = async function(req, res ,next) {
     }
    try {
        const profilesql = `INSERT INTO  profiles SET email = :email`
-       const usersql = `INSERT INTO users SET username = :username, passphrase = :password, fk_profile = :fk`;
+       const usersql = `INSERT INTO users SET username = :username, passphrase = :password, fk_profile = :fk, fk_role = 3`;
        const profile = await db.query(profilesql, {email: req.fields.email})
        // hashSync skal bruge det felt man vil hashe og 10 talet er en salt som kører en string igennem 10 gange 
       // i computerens prosessor hvilket vil sige jo højere tallet er jo længere skal computeren tænke sig om

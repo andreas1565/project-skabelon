@@ -124,7 +124,7 @@ exports.createproducts = async function(req, res, next){
            amount: req.fields.amount,
            categories: req.fields.categories
        });
-       res.redirect('products');
+       res.redirect('/dashboardproducts');
     } catch (error) {
         console.log(error);
         if(error.code === 'ER_DUP_ENTRY'){
@@ -323,7 +323,7 @@ exports.deleteproducts = async function(req, res, next){
          
         const productssql = `DELETE FROM products WHERE id = :id`;
         await db.query(productssql, {id: req.params.id}); 
-        res.redirect('/products');
+        res.redirect('/dashboardproducts');
     } catch (error) {
         console.log(error);
         res.send('fejl'); 

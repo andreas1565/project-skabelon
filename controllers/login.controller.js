@@ -58,10 +58,18 @@ exports.logincheck = async function(req, res, next){
         }
         req.session.isloggedin = true;
         req.session.user = rows[0].id;
-        res.redirect(`/profile/${rows[0].id}`);
+        req.session.userlevel = rows[0].level;
         req.app.locals.isloggedin = true;
         req.app.locals.userId = rows[0].id;
         req.app.locals.userlevel = rows[0].level;
+       // console.log(req.app.locals.userlevel);
+        if(req.session.userlevel > 1 && req.session.userlevel <= 10){
+            res.redirect(`profile/${rows[0].id}`);
+        } else if(req.session.userlevel > 10){
+            res.redirect(`/dashboard/profile/${rows[0].id}`);
+        }else{
+            res.redirect('/login');
+        }
     } catch (error) {
         console.log(error);
         res.send('felj');

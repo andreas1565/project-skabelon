@@ -1,0 +1,23 @@
+<% include partials/header.ejs %>
+    <h1><%= title %></h1>
+    <section class="grid">
+        <div class="grid-item">
+                    <p>hov</p>
+                    <h2><%= product.productsname %></h2>
+                    <img src="/images/uploads/<%=  product.imagesname != null ? product.imagesname : 'testforside.jpg' %>">
+                    <p><%= product.description %></p>
+                    <p><%= product.price %>kr</p>
+                    <p><%= product.weight  %></p>
+                    <p><%=  product.amount %></p>
+                  
+        </div>
+    </section>
+    
+    <section>
+        <% if(images.length > 0){ %>
+        <% images.forEach(image => { %>
+            <img src="/images/uploads/<%=  image.name != null ?  image.name : '' %>">
+        <% }); %>
+        <% } %>    
+    </section>    
+<% include partials/footer.ejs %>

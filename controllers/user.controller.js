@@ -1,4 +1,15 @@
 const db = require('../config/sql');
+// Destructuring i sted for at hente hele bcryptjs bibliotek så jeg henter kun den funktion jeg skal bruge som er hashSync
+const { hashSync } = require('bcryptjs');
+exports.froenduserform = async function(req, res, next){
+    const usersql = `SELECT users.id, users.username, profiles.email FROM users
+    INNER JOIN profiles
+    ON users.fk_profile = profiles.id 
+    WHERE  users.id = :id`;
+    const [user] = await db.query(usersql, {id: req.params.id});
+    res.render('profile', { user: user[0]});
+}
+
 /**
  * @module controler/getusers
  */
@@ -101,13 +112,14 @@ exports.edituser = async function(req, res, next){
             WHERE id = :id 
         )
         */ 
-       const usersql =  `UPDATE users SET username = :username WHERE id = :id`;
+       const hashpassword = hashSync(req.fields.passphrase, 10)
+       const usersql =  `UPDATE users SET username = :username, passphrase = :passphrase  WHERE id = :id`;
        const profilesql =  `UPDATE profiles SET email = :email 
         WHERE id = (
             SELECT fk_profile from users
             WHERE id = :id 
         )`;
-        const user = await db.query(usersql, { id: req.params.id, username: req.fields.username });
+        const user = await db.query(usersql, { id: req.params.id, username: req.fields.username, passphrase: hashpassword});
         const profile = await db.query(profilesql, { id: req.params.id, email: req.fields.email });
 
         // req.route.path = //  /edituser/:id
@@ -160,7 +172,7 @@ exports.deleteuser = async  function(req,res,next) {
             SELECT fk_profile FROM users WHERE id = :id
         )`;
         await db.query(usersql, { id: req.params.id });
-        res.redirect('/users');
+        res.redirect('/dashboardusers');
     } catch (error) {
         console.log(error);
         res.send('fejl');  
@@ -218,7 +230,7 @@ exports.createusersroles = async function(req, res ,next) {
         name:  req.fields.name,
         level: req.fields.level
        });
-       res.redirect('/userroles');
+       res.redirect('/dashboard/user/roles');
    } catch (error) {
        console.log(error);
        if(error.code === 'ER_DUP_ENTRY'){
@@ -305,7 +317,7 @@ exports.editusersroles = async function(req, res, next){
         const usersql = `SELECT id, name, level FROM roles
         WHERE id = :id`;
         const [rows, fieilds ] = await db.query(usersql, {id: req.params.id});
-        res.render('dashboard/editusersroles', { userroles: rows[0], errorMessage});
+        res.render('dashboard/edit/users/roles/', { userroles: rows[0], errorMessage});
         return; 
     }
 
@@ -337,7 +349,7 @@ exports.deleteuserroles = async  function(req,res,next) {
     try {
         const usersql = `DELETE FROM roles WHERE id = :id`;
         await db.query(usersql, { id: req.params.id });
-        res.redirect('/userroles');
+        res.redirect('/dashboard/user/roles');
     } catch (error) {
         console.log(error);
         res.send('fejl');  

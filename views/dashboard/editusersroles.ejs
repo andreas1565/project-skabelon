@@ -42,10 +42,7 @@
              if(!/.*\S.*/g.test(level.value)){
                      succes = false;
                      levelerror.innerHTML =  'feltet level er tomt';
-                 }else if (!/^[\d]$/.test(level.value)){
-                    succes = false;
-                     levelerror.innerHTML =  'kun tal i level';
-                }
+                 }
      
                  if(succes){
                      form.submit();

@@ -1,3 +1,4 @@
+const db = require('../config/sql');
 /**
  * @module controler/home
  */
@@ -8,6 +9,14 @@
      * @param {Function} res er en Function callback
      * @param {Function} next er en Function callback
 */
-exports.home = function (req, res, next){
-    res.render('page', { "title": 'hej verden', "content": 'kaffepause' });
+exports.home = async function  (req, res, next){
+   const  froendsql = `SELECT image, text from froendpage`;
+    const ramdomproductssql = `SELECT  images.name AS imagesname, products.name AS productsname, products.id AS productsid, products.fk_categories  
+    FROM products
+    LEFT OUTER JOIN images
+    ON images.fk_product = products.id AND images.primary = 1
+    ORDER BY RAND(3) LIMIT 3`; 
+    const [froend] = await db.query(froendsql);
+    const [ramdomproducts] = await db.query(ramdomproductssql);
+    res.render('page', { "title": 'hej verden', "content": 'kaffepause', 'froend': froend[0], 'ramdomproducts': ramdomproducts});
 }; 

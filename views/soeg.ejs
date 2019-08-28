@@ -1,0 +1,46 @@
+<% include partials/header.ejs %>
+<form  method="GET" id="mobilform">
+        <!--  <input type="text" name="search" id="searchword" placeholder="søg ord"> -->
+        <fieldset>
+        <label for="name"></label>
+        <input type="text" name="name" id="name" id="name" value="<%= values.name != null ? values.name : '' %>">
+        </fieldset>
+        <fieldset>
+        <label for="minimumPris">minimumPris</label>
+        <input type="number" name="minimumPris" id="maximumPris" value="<%= values.minimumPris != null ? values.minimumPris : '' %>">
+        </fieldset>
+        <fieldset>
+          <label for="maximumPris">maximumPris</label>
+          <input type="number" name="maximumPris" id="maximumPris" value="<%= values.maximumPris != null ? values.maximumPris : '' %>">      
+        </fieldset>
+        <fieldset>
+        <label for="description">description</label>
+        <textarea name="description" id="description"><%= values.description != null ? values.description : '' %></textarea>
+        </fieldset>
+        <fieldset>
+                <label for="categories">søg efter en kategorie</label>
+                <select name="categories" style="display:block" id="categories">
+                        <option value="">vælg et menu kategorie</option>    
+                        <% categories.forEach(categorie => { %>
+                        <option value="<%= categorie.id %>" <%= (values.categories==categorie.id ? 'selected' : '' ) %>>
+                            <%=  categorie.name %>
+                        </option>
+                        <% }); %>
+                </select>
+        </fieldset>
+        <button type="submit">Søg</button>
+</form>
+<section>
+        <section>
+                <%if(typeof searchs != 'undefined'){ %>
+                <% if(searchs.length == 0) { %>
+                        <p>din søging dav ikke nooget resutater prøv igen <a href="/">hjem</a></p>
+               <% } %>
+                <% searchs.forEach(search => {%>
+                <a href="/singelproduct/<%= search.productsid %>"><%= search.productsname %></a>
+                <img src="/images/uploads/<%= search.imagesname %>" width="100px" alt="">
+                <%} ); %>
+                <% }%>
+        </section>
+</section>
+<% include partials/footer.ejs %>

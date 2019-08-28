@@ -27,7 +27,7 @@
                                 <fieldset>
                                     <span id="weighterror" style="color: red"></span>
                                     <label for="weight">vægt</label>
-                                    <input type="text" name="weight" value="<%= (typeof weight != 'undefined')? weight: '' %>" id="weight" required>
+                                    <input type="number" name="weight" value="<%= (typeof weight != 'undefined')? weight: '' %>" id="weight" required>
                                 </fieldset>
                                 <fieldset>
                                     <span id="amounterror" style="color: red"></span>
@@ -91,26 +91,23 @@
             if(!/.*\S.*/g.test(price.value)){
                 succes = false;
                 priceerror.innerHTML =  'feltet prise er tomt';
-            }else if(!/^[\d]$/.test(price.value)){
+            }else if(!/\d/g.test(price.value)){ ///^[\d]$/
                 succes = false;
-                priceerror.innerHTML =  'feltet kun tal i feltet';  
+                priceerror.innerHTML =  'prise kun tal i feltet';  
             }
              // Regular Expression er et objekt, der beskriver et mønster med tegn.
             if(!/.*\S.*/g.test(weight.value)){
                 succes = false;
                 weighterror.innerHTML =  'feltet vægt er tomt';   
-            } else if (!/^[\d]$/.test(weight.value)){
+            } else if(!/\d/g.test){
                 succes = false;
-                weighterror.innerHTML =  'feltet kun tal i feltet';
+                weighterror.innerHTML =  'prise kun tal i feltet'; 
             }
              // Regular Expression er et objekt, der beskriver et mønster med tegn.
             if(!/.*\S.*/g.test(amount.value)){
                 succes = false;
                 amounterror.innerHTML = 'feltet antal er tomt';
-            } else if(!/^[\d]$/.test(amount.value)){
-                succes = false;
-                amounterror.innerHTML = 'feltet kun tal i feltet';
-            }
+            } 
             if(categories.value === '' || isNaN(categories.value) || categories.value == '0'){
                 succes = false;
                 categorieserror.innerHTML = 'du skal vælge en kategorie';

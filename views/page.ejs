@@ -1,4 +1,18 @@
 <% include partials/header.ejs %>
     <h1><%= title %></h1>
     <%= content %>
+    <article>
+        <img src="/images/uploads/<%= froend.image %>" alt="billede fra databaen">
+        <p><%= froend.text %></p>
+    </article>
+
+    <section class="grid">
+            <% ramdomproducts.forEach(ramdomproduct => { %>
+            <div class="grid-item">
+                <a href="/singelproduct/<%= ramdomproduct.productsid %>"><%= ramdomproduct.productsname %></a>
+                <img src="/images/uploads/<%=  ramdomproduct.imagesname != null ? ramdomproduct.imagesname : 'testforside.jpg' %>">
+                <p class="categorietext" style="display: none"><%= ramdomproduct.fk_categories %></p>
+            </div>
+            <% }); %>
+    </section>
     <% include partials/footer.ejs %>

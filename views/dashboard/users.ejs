@@ -16,8 +16,8 @@
                                             <% users.forEach(user => { %>
                                         <tr>
                                             <td>
-                                                <a href="/edituser/<%= user.id %>" class="fas fa-edit"></a>
-                                                <a href="/deleteuser/<%= user.id %>" class="fas fa-trash-alt"></a>
+                                                <a href="/dashboardedituser/<%= user.id %>" class="fas fa-edit"></a>
+                                                <a href="/dashboarddeleteuser/<%= user.id %>" class="fas fa-trash-alt"></a>
                                             </td>
                                             <td> 
                                                 <%= user.username %>

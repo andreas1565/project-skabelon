@@ -3,7 +3,7 @@
             <% include partials/menu.ejs %> 
             <main>
                 <section>
-                        <a href="/createproducts" class="button">oprate et product</a>
+                        <a href="/dashboardcreateproducts" class="button">oprate et product</a>
                             <table>
                                 <thead>
                                     <tr>
@@ -21,8 +21,8 @@
                                             <% products.forEach(product => { %>
                                         <tr>
                                             <td>
-                                                <a href="/editproduct/<%= product.id %>" class="fas fa-edit"></a>
-                                                <a href="/deleteproducts/<%= product.id %>" class="fas fa-trash-alt"></a>
+                                                <a href="/dashboardeditproduct/<%= product.id %>" class="fas fa-edit"></a>
+                                                <a href="/dashboarddeleteproducts/<%= product.id %>" class="fas fa-trash-alt"></a>
                                             </td>
                                             <td> 
                                                 <%= product.name %>

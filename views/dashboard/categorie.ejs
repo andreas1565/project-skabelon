@@ -3,7 +3,7 @@
         <% include partials/menu.ejs %> 
         <main>
             <section>
-                    <a href="/createcategorie" class="button">oprate et categorie</a>
+                    <a href="/dashboardcreatecategorie" class="button">oprate et categorie</a>
                             <table>
                                     <thead>
                                         <tr>
@@ -16,8 +16,8 @@
                                             <% categories.forEach(categorie => { %>
                                         <tr>
                                             <td>
-                                                <a href="/editcategorie/<%= categorie.id %>" class="fas fa-edit"></a>
-                                                <a href="/deletecategorie/<%= categorie.id %>" class="fas fa-trash-alt"></a>
+                                                <a href="/dashboardeditcategorie/<%= categorie.id %>" class="fas fa-edit"></a>
+                                                <a href="/dashboarddeletecategorie/<%= categorie.id %>" class="fas fa-trash-alt"></a>
                                             </td>
                                             <td> 
                                                 <%= categorie.name %>

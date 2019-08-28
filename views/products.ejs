@@ -1,0 +1,51 @@
+<% include partials/header.ejs %>
+    <h1><%= title %></h1>
+    <div>
+            <select name="categories" style="display:block" id="categories" onchange="filter()">
+                    <option value="0">vælg et menu kategorie</option>    
+                    <% categories.forEach(categorie => { %>
+                    <option value="<%= categorie.id %>">
+                        <%=  categorie.name %>
+                    </option>
+                    <% }); %>
+            </select>
+        </div>
+    <section class="grid">
+        <% products.forEach(product => { %>
+        <div class="grid-item">
+            <a href="/singelproduct/<%= product.productsid %>"><%= product.productsname %></a>
+           <!--  <a href="/singelproduct/<%= product.productsid %>"><%=  product.imagesname != null ? product.productsname : '' %></a> -->
+            <img src="/images/uploads/<%=  product.imagesname != null ? product.imagesname : 'testforside.jpg' %>">
+            <p class="categorietext"><%= product.fk_categories %></p>
+        </div>
+        <% }); %>
+    </section>
+    <script>
+        function filter(){
+            const select = document.querySelector('#categories');
+          //  console.log(select.value);
+            window.location.replace('/products/'+ select.value); 
+        }
+
+  /*   function filter(){
+        const select = document.querySelector('#categories');
+        const filter = select.value.toUpperCase();
+        const productlist = document.querySelector('.grid');
+        const product = productlist.querySelectorAll('.grid-item');
+
+        for(let i = 0; i < product.length; i++){
+            let categorie = product[i].querySelectorAll('.categorietext')[0];
+            console.log(categorie);
+            if(categorie){
+                const  textvalue = categorie.textContent || categorie.innerText;
+                if(textvalue.toUpperCase().indexOf(filter) > -1){
+                    console.log(textvalue);
+                    product[i].style.display = '';
+                }else{
+                    product[i].style.display = 'none';
+                }
+            }
+        }
+    } */
+    </script>    
+<% include partials/footer.ejs %>

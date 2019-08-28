@@ -14,9 +14,10 @@ const {join} = require('path');
 
 exports.getimages = async function(req, res, next){
     try {
-       const  imgaesql = `SELECT  images.id, images.name as imagesname, products.name as productsname FROM images
+       const  imgaesql = `SELECT  images.id, images.name as imagesname,images.primary AS isprimary ,products.name as productsname, products.id AS productsid FROM images
         INNER JOIN products
-        ON images.fk_product = products.id`;
+        ON images.fk_product = products.id
+        ORDER BY products.id, images.primary DESC `;
        const  [rows] = await db.query(imgaesql);
        res.render('dashboard/images', {images: rows});
     } catch (error) {
@@ -97,7 +98,7 @@ exports.editimages = async function(req, res, next){
             image: newFileName,
             id: req.params.id   
         });
-        res.redirect('/editimage/' + req.params.id);
+        res.redirect('/dashboard/edit/image/' + req.params.id);
     } catch (error) {
         console.log(error);
         console.log('fejl');
@@ -122,9 +123,21 @@ exports.deleteimages = async function(req, res, next){
         fs.unlinkSync(join(__dirname, "../public/images/uploads", rows[0].name));
         const imagessql = `DELETE FROM images WHERE id = :id`;
         await db.query(imagessql, {id: req.params.id}); 
-        res.redirect('/images');
+        res.redirect('/dashboard/images');
     } catch (error) {
         console.log(error);
         console.log('fejl'); 
     }
+}
+
+exports.setprimary = async function(req, res, next){
+    /* her sætter jeg primary til at være 0 fordi den ikke længere skal være forsidebillede på det enkelte produkt ved hjælp af :productsid` */ 
+    await db.query('update images set images.primary = 0 WHERE fk_product = :productsid', {
+        productsid: req.params.productsid 
+     });
+     /* her opdatere jeg et nyt billede til at have primary 1 på det enkelte billede ved hjælp af :imageid` */ 
+     await db.query('update images set images.primary = 1 WHERE id = :imagesid', {
+        imagesid: req.params.imagesid 
+     });
+     res.redirect('/dashboard/images');
 }
