@@ -6,11 +6,13 @@
                                 <fieldset>
                                     <span id="nameerror" style="color:  red;"></span>
                                         <label for="name">skriv en name på dit product</label>
+                                                                                <!--typeof er du tjæker hvikelen type noget er-->
                                         <input type="text" name="name" value="<%= (typeof name != 'undefined')? name: '' %>" id="name" required>
                                 </fieldset>
                                 <fieldset>
                                     <span id="descriptionerror" style="color: red"></span>
                                     <label for="description">beskrivsel</label>
+                                                                                             <!--typeof er du tjæker hvikelen type noget er-->
                                         <textarea name="description" id="description" required><%= (typeof description != 'undefined')? description: '' %></textarea>
                                 </fieldset>
                                <!--  <div id="uploadbutton">
@@ -22,16 +24,19 @@
                                 <fieldset>
                                     <span id="priceerror" style="color: red"></span>
                                     <label for="price">pris</label>
+                                                                             <!--typeof er du tjæker hvikelen type noget er-->
                                     <input type="number" name="price" value="<%= (typeof price != 'undefined')? price: '' %>" id="price" required>
                                 </fieldset>
                                 <fieldset>
                                     <span id="weighterror" style="color: red"></span>
                                     <label for="weight">vægt</label>
+                                                                             <!--typeof er du tjæker hvikelen type noget er-->
                                     <input type="number" name="weight" value="<%= (typeof weight != 'undefined')? weight: '' %>" id="weight" required>
                                 </fieldset>
                                 <fieldset>
                                     <span id="amounterror" style="color: red"></span>
                                     <label for="amount">antal</label>
+                                                                             <!--typeof er du tjæker hvikelen type noget er-->
                                     <input type="number" name="amount" value="<%= (typeof amount != 'undefined')? amount: '' %>" id="amount" required>
                                 </fieldset>
                                 <fieldset>
@@ -48,6 +53,7 @@
                                 </fieldset>
                                 <button type="submit">oprate et products</button>
                             </form>
+                             <!--typeof er du tjæker hvikelen type noget er-->
                             <p>
                                 <%= (typeof  errorMessage != "undefined") ?  errorMessage : '' %>
                             </p>  

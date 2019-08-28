@@ -6,15 +6,18 @@
                                 <fieldset>
                                         <span id="nameerror" style="color:  red;"></span>
                                         <label for="name">skriv en name på den nye brugerrolle</label>
+                                                                             <!--typeof er du tjæker hvikelen type noget er-->
                                         <input type="text" name="name" value="<%= (typeof name != 'undefined')? name: '' %>" id="name" required>
                                 </fieldset>
                                 <fieldset>
                                     <span id="levelerror" style="color: red"></span>
                                     <label for="level">level</label>
+                                                                             <!--typeof er du tjæker hvikelen type noget er-->
                                     <input type="text" name="level" value="<%= (typeof level != 'undefined')? level: '' %>" id="level" required>
                                 </fieldset>
                             <button type="submit">oprate et products</button>
                             </form>
+                             <!--typeof er du tjæker hvikelen type noget er-->
                             <p>
                                 <%= (typeof  errorMessage != "undefined") ?  errorMessage : '' %>
                             </p>  
