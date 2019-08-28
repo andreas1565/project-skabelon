@@ -14,6 +14,11 @@
                             <label for="passphrase">lav et nyt password</label>
                             <input type="password" name="passphrase" id="passphrase">
                             </fieldset>
+                            <fieldset>
+                                    <label for="retenterpassphrase">gentag adgangskode</label>
+                                    <span id="retenterpassphraseerror" style="color: red"></span>
+                                    <input type="password" name="retenterpassphrase" id="retenterpassphrase">
+                            </fieldset>
                         <fieldset>
                             <span id="emailerror" style="color:  red;"></span>
                             <label for="email">email</label>
@@ -53,7 +58,9 @@
             const username = document.querySelector('#username');
             const usernameerror = document.querySelector('#usernameerror');
             usernameerror.innerHTML =  '';
-     
+            const passphrase = document.querySelector('#passphrase');
+            const retenterpassphrase = document.querySelector('#retenterpassphrase');
+            retenterpassphrase.innerHTML =  '';
              let succes = true;
              // Regular Expression er et objekt, der beskriver et mønster med tegn.
              if(!/.*\S.*/g.test(email.value)){
@@ -69,6 +76,12 @@
             if(!/.*\S.*/g.test(username.value)){
                 succes =  false;
                 usernameerror.innerHTML = "feltet username er tomt";
+            }
+            if(passphrase.value != retenterpassphrase.value){
+                succes =  false;
+                passphrase.focus();
+                retenterpassphrase.focus();
+                retenterpassphraseerror.innerHTML = "adganskoden er ikke ens"
             }
      
                  if(succes){
