@@ -90,7 +90,7 @@ exports.getfroendproductswithcategorie = async function(req, res, next){
      * @param {Function} next er en Function callback 
 */
 exports.singelproduct = async function(req, res, next){
-    const productssql = `SELECT products.id AS productsid,  products.name AS productsname, products.description,  products.price, products.weight, products.amount, images.name AS imagesname  
+    const productssql = `SELECT products.id AS productsid,  products.name AS productsname, products.description,  products.price, products.weight, products.amount, images.name AS imagesname, fk_categories 
     FROM products
     LEFT OUTER JOIN images
     ON images.fk_product = products.id AND images.primary = 1
@@ -99,9 +99,19 @@ exports.singelproduct = async function(req, res, next){
     const allimagessql = ` SELECT name, images.primary FROM images
     WHERE fk_product = :id AND images.primary = 0
     ORDER BY images.primary DESC `;
+    
+    const outerProductsql = `SELECT id,name FROM products
+    WHERE fk_categories = :outerProduct AND id != :currentproductid
+    ORDER BY RAND()
+    LIMIT 3`;
+
     const [product] = await db.query(productssql, {id: req.params.id});
+
     const [images] = await db.query(allimagessql, {id: req.params.id});
-    res.render('singelproduct', { title: 'enkel product' ,product: product[0], images});
+
+    const [outerProducts] = await db.query(outerProductsql, {outerProduct: product[0].fk_categories, currentproductid: req.params.id});
+
+    res.render('singelproduct', { title: 'enkel product' ,product: product[0], images, outerProducts});
 }
 /**
      * til at starte med kan man kun se formen på siden hvis man bare klikker søg uden at have skrevet noget så vil man få vist alle produkter men hvis man skriver noget i felterne vid deres søgeresultat blive sendt med ud på siden  
@@ -124,7 +134,7 @@ exports.productsearch = async function(req, res, next){
         res.render('soeg', {categories, values});
     }else{
         let sql_query = `
-        SELECT images.name AS imagesname, products.name AS productsname, products.id AS productsid, categories.name AS categoriesname, products.price 
+        SELECT images.name AS imagesname, products.name AS productsname, products.id AS productsid, categories.name AS categoriesname, products.price, products.description 
         FROM products
         LEFT OUTER JOIN images
         ON images.fk_product = products.id AND images.primary = 1

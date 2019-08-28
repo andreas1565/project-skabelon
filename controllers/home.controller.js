@@ -15,7 +15,8 @@ exports.home = async function  (req, res, next){
     FROM products
     LEFT OUTER JOIN images
     ON images.fk_product = products.id AND images.primary = 1
-    ORDER BY RAND() LIMIT 3`; 
+    ORDER BY RAND() 
+    LIMIT 3`; 
     const [froend] = await db.query(froendsql);
     const [ramdomproducts] = await db.query(ramdomproductssql);
     res.render('page', { "title": 'hej verden', "content": 'kaffepause', 'froend': froend[0], 'ramdomproducts': ramdomproducts});
