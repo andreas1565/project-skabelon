@@ -93,6 +93,10 @@ exports.edituser = async function(req, res, next){
         errorMessage = "feltet brger email er tom";
         success = false;
     }
+    if(req.fields.passphrase  != req.fields.retenterpassphrase){
+        success = false;
+        errorMessage = 'password match ikkke';
+    }
     if(success  !== true){
         const rolessql = `SELECT id AS rolesid, name AS rolesname FROM test3.roles WHERE name != 'superadmin' `;
         const [rows2] = await db.query(rolessql);

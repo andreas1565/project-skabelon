@@ -44,28 +44,32 @@
             event.preventDefault();
 
             let succes  = true;
-
+            // Regular Expression er et objekt, der beskriver et mønster med tegn.
             if(!/.*\S.*/g.test(email.value)){
                 succes =  false;
                 emailerror.innerHTML = "feltet email er tomt";  
             }
+            // Regular Expression er et objekt, der beskriver et mønster med tegn.
             if(!/@/g.test(email.value)){
                 succes = false;
                 emailerror.innerHTML ='du mangler et snabel-a i feltet';
             }
+            // Regular Expression er et objekt, der beskriver et mønster med tegn.
             if(!/.*\S.*/g.test(username.value)){
                 succes  = false;
                 usernameerror.innerHTML = 'feltet username er tomt';  
             }
+            // Regular Expression er et objekt, der beskriver et mønster med tegn.
             if(/\d/g.test(username.value)){
                 succes  = false;
                 usernameerror.innerHTML = 'du kan ikke skive tal i dette feltet';
             }
+            // Regular Expression er et objekt, der beskriver et mønster med tegn.
             if(!/.*\S.*/g.test(passphrase.value)){
                 succes =  false;
                 passphraseerror.innerHTML = "feltet adganskode er tomt";
             }
-
+            // Regular Expression er et objekt, der beskriver et mønster med tegn.
             if(passphrase.value != retenterpassphrase.value){
                 passphrase.focus();
                 retenterpassphrase.focus();
