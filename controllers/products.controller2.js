@@ -127,12 +127,17 @@ exports.productsearch = async function(req, res, next){
     INNER JOIN categories
     ON products.fk_categories = categories.id
     WHERE products.name LIKE :searchproduct OR categories.name LIKE :searchcategorie OR products.price LIKE :searchprice OR products.description LIKE :searchdescription`; */
+    
     const categoriesql = `SELECT id,  name FROM categories`;
+    
     const [categories] =  await db.query(categoriesql);
+    // put req.query inde i en variabel for at kune vis data i form efter man har søgt
     let values = req.query;
+    // her tjækker jeg om req.query er = 0 for at når man kommer inde på siden at den ikke viser produkteren
     if(Object.keys(req.query).length == 0){
         res.render('soeg', {categories, values});
     }else{
+       // start grund sql sætningen, den kan hente samtlige produkter
         let sql_query = `
         SELECT images.name AS imagesname, products.name AS productsname, products.id AS productsid, categories.name AS categoriesname, products.price, products.description 
         FROM products
@@ -141,8 +146,11 @@ exports.productsearch = async function(req, res, next){
         INNER JOIN categories
         ON products.fk_categories = categories.id
         WHERE 1=1`;
+        // start params samlingen, den skal bare være tom til at starte med
         let sql_params = {};
+        // så her tjækker jeg om  query parameter name findes
         if(req.query.name != undefined && req.query.name != ""){
+            // indesætter det der står i navn bliver en del af sqlen oven over
             sql_query += ' AND products.name LIKE :searchproduct ';
             sql_params.searchproduct = '%' + req.query.name + '%';
         }
@@ -162,6 +170,7 @@ exports.productsearch = async function(req, res, next){
             sql_query +=  ' AND  categories.id LIKE :searchcategorie ';
             sql_params.searchcategorie =req.query.categories;
         }
+        // her kør jeg sql og sql_params og send det med over til template filen 
         const [searchs] =  await db.query(sql_query, sql_params);
         res.render('soeg',{'searchs': searchs, categories,  values});
     }
@@ -196,6 +205,8 @@ exports.getcreateform = async function(req, res, next){
 exports.createproducts = async function(req, res, next){
     let success = true;
     let errorMessage;
+    // NaN betyder I flere sprog: 'Not A Number'
+    // Javascript funktionen isNaN() giver 'true' hvis udtrykket i paranteser ikke er et tal.
     if (!req.fields.categories || isNaN(req.fields.categories) || req.fields.categories == "0") {
         success = false;
         errorMessage ='vælg en kategorie';
@@ -203,21 +214,30 @@ exports.createproducts = async function(req, res, next){
     if(req.fields.amount === ""){
         errorMessage = "feltet antal er tom";
         success = false;
-    }else if(isNaN(req.fields.amount)){
+    }
+    // NaN betyder I flere sprog: 'Not A Number'
+    // Javascript funktionen isNaN() giver 'true' hvis udtrykket i paranteser ikke er et tal.
+    else if(isNaN(req.fields.amount)){
         errorMessage = 'du kan kun skrive tal i antal feltet';
         success  = false;
     }
     if(req.fields.weight === ""){
         errorMessage = "feltet vægt er tom";
         success = false;
-    }else if(isNaN(req.fields.weight)){
+    }
+    // NaN betyder I flere sprog: 'Not A Number'
+    // Javascript funktionen isNaN() giver 'true' hvis udtrykket i paranteser ikke er et tal.
+    else if(isNaN(req.fields.weight)){
         errorMessage = 'du kan kun skrive tal i vægt feltet';
         success  = false;
     }
     if(req.fields.price === ""){
         errorMessage = "feltet prise er tom";
         success = false;
-    }else if(isNaN(req.fields.price)){
+    }
+    // NaN betyder I flere sprog: 'Not A Number'
+    // Javascript funktionen isNaN() giver 'true' hvis udtrykket i paranteser ikke er et tal.
+    else if(isNaN(req.fields.price)){
         errorMessage = 'du kan kun skrive tal i postion feltet';
         success  = false;
     }
@@ -326,6 +346,8 @@ exports.showproductsform = async function(req, res, next){
 exports.editproducts = async  function(req, res, next){
     let success = true;
     let errorMessage;
+    // NaN betyder I flere sprog: 'Not A Number'
+    // Javascript funktionen isNaN() giver 'true' hvis udtrykket i paranteser ikke er et tal.
     if (!req.fields.categories || isNaN(req.fields.categories) || req.fields.categories == "0") {
         success = false;
         errorMessage ='vælg en kategorie';
@@ -333,14 +355,20 @@ exports.editproducts = async  function(req, res, next){
     if(req.fields.amount === ""){
         errorMessage = "feltet antal er tom";
         success = false;
-    }else if(isNaN(req.fields.amount)){
+    }
+    // NaN betyder I flere sprog: 'Not A Number'
+    // Javascript funktionen isNaN() giver 'true' hvis udtrykket i paranteser ikke er et tal.
+    else if(isNaN(req.fields.amount)){
         errorMessage = 'du kan kun skrive tal i antal feltet';
         success  = false;
     }
     if(req.fields.weight === ""){
         errorMessage = "feltet vægt er tom";
         success = false;
-    }else if(isNaN(req.fields.weight)){
+    }
+    // NaN betyder I flere sprog: 'Not A Number'
+    // Javascript funktionen isNaN() giver 'true' hvis udtrykket i paranteser ikke er et tal.
+    else if(isNaN(req.fields.weight)){
         errorMessage = 'du kan kun skrive tal i vægt feltet';
         success  = false;
     }

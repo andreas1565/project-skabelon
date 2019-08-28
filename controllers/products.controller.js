@@ -34,6 +34,8 @@ exports.getcreateform = async function(req, res, next){
 exports.createproducts = async function(req, res, next){
     let success = true;
     let errorMessage;
+    // NaN betyder I flere sprog: 'Not A Number'
+    // Javascript funktionen isNaN() giver 'true' hvis udtrykket i paranteser ikke er et tal.
     if (!req.fields.categories || isNaN(req.fields.categories) || req.fields.categories == "0") {
         success = false;
         errorMessage ='vælg en kategorie';
@@ -41,21 +43,30 @@ exports.createproducts = async function(req, res, next){
     if(req.fields.amount === ""){
         errorMessage = "feltet antal er tom";
         success = false;
-    }else if(isNaN(req.fields.amount)){
+    }
+    // NaN betyder I flere sprog: 'Not A Number'
+    // Javascript funktionen isNaN() giver 'true' hvis udtrykket i paranteser ikke er et tal.
+    else if(isNaN(req.fields.amount)){
         errorMessage = 'du kan kun skrive tal i antal feltet';
         success  = false;
     }
     if(req.fields.weight === ""){
         errorMessage = "feltet vægt er tom";
         success = false;
-    }else if(isNaN(req.fields.weight)){
+    }
+    // NaN betyder I flere sprog: 'Not A Number'
+    // Javascript funktionen isNaN() giver 'true' hvis udtrykket i paranteser ikke er et tal.
+    else if(isNaN(req.fields.weight)){
         errorMessage = 'du kan kun skrive tal i vægt feltet';
         success  = false;
     }
     if(req.fields.price === ""){
         errorMessage = "feltet prise er tom";
         success = false;
-    }else if(isNaN(req.fields.price)){
+    }
+    // NaN betyder I flere sprog: 'Not A Number'
+    // Javascript funktionen isNaN() giver 'true' hvis udtrykket i paranteser ikke er et tal.
+    else if(isNaN(req.fields.price)){
         errorMessage = 'du kan kun skrive tal i postion feltet';
         success  = false;
     }
@@ -193,6 +204,8 @@ exports.showproductsform = async function(req, res, next){
 exports.editproducts = async  function(req, res, next){
     let success = true;
     let errorMessage;
+    // NaN betyder I flere sprog: 'Not A Number'
+    // Javascript funktionen isNaN() giver 'true' hvis udtrykket i paranteser ikke er et tal.
     if (!req.fields.categories || isNaN(req.fields.categories) || req.fields.categories == "0") {
         success = false;
         errorMessage ='vælg en kategorie';
@@ -200,21 +213,30 @@ exports.editproducts = async  function(req, res, next){
     if(req.fields.amount === ""){
         errorMessage = "feltet antal er tom";
         success = false;
-    }else if(isNaN(req.fields.amount)){
+    }
+    // NaN betyder I flere sprog: 'Not A Number'
+    // Javascript funktionen isNaN() giver 'true' hvis udtrykket i paranteser ikke er et tal.
+    else if(isNaN(req.fields.amount)){
         errorMessage = 'du kan kun skrive tal i antal feltet';
         success  = false;
     }
     if(req.fields.weight === ""){
         errorMessage = "feltet vægt er tom";
         success = false;
-    }else if(isNaN(req.fields.weight)){
+    }
+    // NaN betyder I flere sprog: 'Not A Number'
+    // Javascript funktionen isNaN() giver 'true' hvis udtrykket i paranteser ikke er et tal.
+    else if(isNaN(req.fields.weight)){
         errorMessage = 'du kan kun skrive tal i vægt feltet';
         success  = false;
     }
     if(req.fields.price === ""){
         errorMessage = "feltet prise er tom";
         success = false;
-    }else if(isNaN(req.fields.price)){
+    }
+    // NaN betyder I flere sprog: 'Not A Number'
+    // Javascript funktionen isNaN() giver 'true' hvis udtrykket i paranteser ikke er et tal.
+    else if(isNaN(req.fields.price)){
         errorMessage = 'du kan kun skrive tal i postion feltet';
         success  = false;
     }

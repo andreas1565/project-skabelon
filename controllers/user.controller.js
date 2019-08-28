@@ -219,6 +219,8 @@ exports.createusersroles = async function(req, res ,next) {
         errorMessage = "feltet brger email er tom";
         success = false;
     }
+    // NaN betyder I flere sprog: 'Not A Number'
+    // Javascript funktionen isNaN() giver 'true' hvis udtrykket i paranteser ikke er et tal.
     if(isNaN(req.fields.level) === ""){
         success = false;
         errorMessage = 'du kan kun skrive tal i level feltet';
@@ -313,6 +315,8 @@ exports.editusersroles = async function(req, res, next){
         errorMessage = "feltet brger email er tom";
         success = false;
     }
+    // NaN betyder I flere sprog: 'Not A Number'
+    // Javascript funktionen isNaN() giver 'true' hvis udtrykket i paranteser ikke er et tal.
     if(isNaN(req.fields.level) === ""){
         success = false;
         errorMessage = 'du kan kun skrive tal i level feltet';
