@@ -2,12 +2,14 @@
     <form  method="post" id="signupform">
         <div>
                 <label for="email">email</label>
+                                                             <!--typeof er du tjæker hvikelen type noget er-->
                 <input type="text" name="email" id="email" value="<%= (typeof email != 'undefined')? email: '' %>" required>
                 <span id="emailerror" style="color:  red;"></span>
         </div>
         <div>
             <label for="username">brugernavn</label>
             <span id="usernameerror" style="color:  red;"></span>
+                                                                 <!--typeof er du tjæker hvikelen type noget er-->
             <input type="text" name="username" id="username" value="<%= (typeof username != 'undefined')? username: '' %>" required>
         </div>
         <div>

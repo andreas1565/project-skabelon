@@ -12,14 +12,60 @@ const {join} = require('path');
      * @param {Function} next er en Function callback 
 */
  exports.getfroendproducts = async function(req, res, next){
+    // bestem hvor mange elementer der skal vises pr side
+    let items_pr_page = 3;
+    
+    // vi går som standard ud fra at det er den første side der skal vises
+    let current_page = 1;
+
+    // tjek at page findes i querystring og at det er et tal
+    if(req.query.page != undefined){
+        
+        if(parseInt(req.query.page) < 1){
+            res.redirect('/products');
+            return;
+        }
+        if(parseInt(req.query.page) >= 1){
+            current_page = parseInt(req.query.page);
+        }
+    }
+
+    // find ud af hvor mange produkter der er i databasen
+    let [result] = await db.query('SELECT COUNT(*) AS total_items FROM products');
+    let total_items = result[0].total_items;
+
+    // beregn hvor mange produkter der skal springes over 
+    // for at vise den pågældende side
+    // grunden til -1 er at current_page kan være 0  er at når man er på en førest skal den ikke spange noget over
+    let offset  = (current_page - 1) * items_pr_page;
+
+    // beregn hvor mange sider der er i alt, 
+    // baseret på antal elementer og elementer pr side
+    // Math.ceil gør kommatal til heltal ved at runde up 
+    let total_pages = Math.ceil(total_items / items_pr_page);
+
+    // hvis "offset" er større end totalle antal items, så indlæses den sidste side
+    if (offset > total_items) {
+    res.redirect('/products?page=' + total_pages);
+     return;
+    }
+
+
+    // hent de produkter der hører til den side der skal vises
+    // LIMIT har to værdier, den første er hvor meget der skal springes over
+    // den anden er hvor mange der skal hentes
     const categoriessql = `SELECT id, name FROM test3.categories`;
     const productssql  = `SELECT  images.name AS imagesname, products.name AS productsname, products.id AS productsid, products.fk_categories  
     FROM products
     LEFT OUTER JOIN images
-    ON images.fk_product = products.id AND images.primary = 1`;
-    const [rows] =  await db.query(productssql);
+    ON images.fk_product = products.id AND images.primary = 1
+    LIMIT :offset, :items_pr_page `;
+    const [rows] =  await db.query(productssql, {
+        offset: offset,
+        items_pr_page: items_pr_page
+    });
     const [rows2] = await db.query(categoriessql);
-    res.render('products', { title: 'products' ,products: rows, categories: rows2});
+    res.render('products', { title: 'products' ,products: rows, categories: rows2,  'total_pages': total_pages, 'current_page': current_page});
 } 
 /**
      * denne fuktion renderer en template med de produkter som har en specifik kategori
@@ -44,11 +90,12 @@ exports.getfroendproductswithcategorie = async function(req, res, next){
      * @param {Function} next er en Function callback 
 */
 exports.singelproduct = async function(req, res, next){
-    const productssql = `SELECT  images.name AS imagesname, products.name AS productsname, products.id AS productsid, products.fk_categories  
+    const productssql = `SELECT products.id AS productsid,  products.name AS productsname, products.description,  products.price, products.weight, products.amount, images.name AS imagesname  
     FROM products
     LEFT OUTER JOIN images
     ON images.fk_product = products.id AND images.primary = 1
     WHERE products.id = :id `;
+
     const allimagessql = ` SELECT name, images.primary FROM images
     WHERE fk_product = :id AND images.primary = 0
     ORDER BY images.primary DESC `;
