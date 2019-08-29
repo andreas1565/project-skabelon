@@ -1,5 +1,5 @@
 module.exports = function(req,  res, next){
-    return next();
+    /* return next(); */
     // hvis der ikke er nogel session så bliver man smit tilbage til log in siden  
     if(!req.session){
         res.redirect("/login");
