@@ -159,7 +159,7 @@ exports.productsearch = async function(req, res, next){
             sql_params.minimumPris =  req.query.minimumPris  ;
         }
         if(req.query.maximumPris != undefined && req.query.maximumPris != ""){
-            sql_query += ' AND products.price  >= :maximumPris ';
+            sql_query += ' AND products.price  <= :maximumPris ';
             sql_params.maximumPris =  req.query.maximumPris  ;
         }
         if(req.query.description != undefined || req.query.description != ""){

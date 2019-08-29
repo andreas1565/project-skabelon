@@ -49,12 +49,15 @@ exports.logincheck = async function(req, res, next){
             username: req.fields.username
         });        
         if(rows.length !== 1){
-            res.redirect("/login");
+            res.render("/login", {"errorMessage": 'bruger navn er forkert er du stike på at  du har stavet radigt'});
+            return;
         }
 
         // her tjekker jeg om det man skive i form, passer med det der står i databasen
         if(!compareSync(req.fields.password,  rows[0].passphrase)){
-            res.redirect('/login');
+          //  res.redirect('/login');
+            res.render('login', {'errorMessage': 'password match ikke'});
+            return;
         }
         req.session.isloggedin = true;
         req.session.user = rows[0].id;
@@ -62,17 +65,23 @@ exports.logincheck = async function(req, res, next){
         req.app.locals.isloggedin = true;
         req.app.locals.userId = rows[0].id;
         req.app.locals.userlevel = rows[0].level;
-       // console.log(req.app.locals.userlevel);
         if(req.session.userlevel > 1 && req.session.userlevel <= 10){
             res.redirect(`profile/${rows[0].id}`);
+            console.log('/profile');
+            return;
         } else if(req.session.userlevel > 10){
-            res.redirect(`/dashboard/profile/${rows[0].id}`);
+          res.redirect(`/dashboard/profile/${rows[0].id}`);
+          return;
         }else{
-            res.redirect('/login');
+           res.redirect('/login');
+           console.log('else');
+           return;
         }
     } catch (error) {
         console.log(error);
-        res.send('felj');
+       /*  res.send('felj'); */
+       res.redirect('/login');
+       return;
     }
 }
 
