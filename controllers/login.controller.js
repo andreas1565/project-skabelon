@@ -10,7 +10,7 @@ const { compareSync } = require('bcryptjs');
      * @param {Function} next er en Function callback og koncekvensen af next er den hopper videre til næste funktion 
 */
 exports.getloginform = function(req,  res, next){
-    res.render('login');
+    res.render('frontend/login');
 };
 /**
  * @module controler/logincheckfunctionality
@@ -34,7 +34,7 @@ exports.logincheck = async function(req, res, next){
         success = false;
     }
     if(success !== true){
-        res.render("login",  {errorMessage});
+        res.render("froend/login",  {errorMessage});
          // return stopper fuction
         return;
     }
@@ -49,14 +49,14 @@ exports.logincheck = async function(req, res, next){
             username: req.fields.username
         });        
         if(rows.length !== 1){
-            res.render("/login", {"errorMessage": 'bruger navn er forkert er du stike på at  du har stavet radigt'});
+            res.render("froend/login", {"errorMessage": 'bruger navn er forkert er du stike på at  du har stavet radigt'});
             return;
         }
 
         // her tjekker jeg om det man skive i form, passer med det der står i databasen
         if(!compareSync(req.fields.password,  rows[0].passphrase)){
           //  res.redirect('/login');
-            res.render('login', {'errorMessage': 'password match ikke'});
+            res.render('frontend/login', {'errorMessage': 'password match ikke'});
             return;
         }
         req.session.isloggedin = true;

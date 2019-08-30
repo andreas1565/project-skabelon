@@ -1,15 +1,18 @@
 const db = require('../config/sql');
 // Destructuring i sted for at hente hele bcryptjs bibliotek så jeg henter kun den funktion jeg skal bruge som er hashSync
 const { hashSync } = require('bcryptjs');
+/* froend controller */ 
+/*  froend */ 
 exports.froenduserform = async function(req, res, next){
     const usersql = `SELECT users.id, users.username, profiles.email FROM users
     INNER JOIN profiles
     ON users.fk_profile = profiles.id 
     WHERE  users.id = :id`;
     const [user] = await db.query(usersql, {id: req.params.id});
-    res.render('profile', { user: user[0]});
+    res.render('frontend/profile', { user: user[0]});
 }
-
+/*  froend end */
+/* froend controller end */
 /**
  * @module controler/getusers
  */
