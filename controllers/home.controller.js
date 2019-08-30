@@ -19,5 +19,5 @@ exports.home = async function  (req, res, next){
     LIMIT 3`; 
     const [froend] = await db.query(froendsql);
     const [ramdomproducts] = await db.query(ramdomproductssql);
-    res.render('page', { "title": 'hej verden', "content": 'kaffepause', 'froend': froend[0], 'ramdomproducts': ramdomproducts});
+    res.render('frontend/page', { "title": 'hej verden', "content": 'kaffepause', 'froend': froend[0], 'ramdomproducts': ramdomproducts});
 }; 

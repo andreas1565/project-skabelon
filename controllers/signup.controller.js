@@ -11,7 +11,7 @@ const { hashSync } = require('bcryptjs');
      * @param {Function} next er en Function callback og koncekvensen af next er den hopper videre til næste funktion
 */
 exports.get = function(req , res , next) {
-    res.render('signup');
+    res.render('frontend/signup');
 };
 /**
  * @module controler/signupfunctionality
@@ -44,7 +44,7 @@ exports.post = async function(req, res ,next) {
         success = false;
     }
     if(success !== true){
-        res.render("signup",  {errorMessage, ...req.fields});
+        res.render("froend/signup",  {errorMessage, ...req.fields});
          // return stopper fuction
         return;
     }

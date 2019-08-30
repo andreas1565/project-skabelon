@@ -9,5 +9,5 @@
      * @param {Function} next er en Function callback
 */
 exports.kontakt = function (req, res, next){
-    res.render('page', {"title": "kontakt", "content": 'kaffepause'})
+    res.render('frontend/page', {"title": "kontakt", "content": 'kaffepause'})
 }

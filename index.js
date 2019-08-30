@@ -7,7 +7,7 @@ const express = require('express');
 const app = express();
 // vi configurerer så express ved hvad en session er og hvad det statiske mappe er og hvad parser, views er
 require('./config/sesison')(app);
-require('./config/flash')(app);
+
 require('./config/public')(app,  express);
 require('./config/parser')(app);
 require('./config/locals')(app);

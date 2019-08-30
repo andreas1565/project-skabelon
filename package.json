@@ -11,20 +11,19 @@
     "dev": "nodemon index"
   },
   "keywords": [],
-  "author": "",
+  "author": "Andreas Grøndahl Hansen",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "dotenv": "^8.1.0",
     "ejs": "^2.6.2",
     "express": "^4.17.1",
-    "express-flash": "0.0.2",
     "express-formidable": "^1.2.0",
     "express-log-errors": "^2.1.1",
     "express-session": "^1.16.2",
     "gm": "^1.23.1",
     "morgan": "^1.9.1",
-    "mysql2": "^1.6.5"
+    "mysql2": "^1.7.0"
   },
   "devDependencies": {
     "nodemon": "^1.19.1"

@@ -1,6 +1,7 @@
 const db = require('../config/sql');
 const fs = require('fs');
 const {join} = require('path');   
+/* froend controller */ 
 /**
  * @module controler/getfroendproducts 
 */
@@ -65,7 +66,7 @@ const {join} = require('path');
         items_pr_page: items_pr_page
     });
     const [rows2] = await db.query(categoriessql);
-    res.render('products', { title: 'products' ,products: rows, categories: rows2,  'total_pages': total_pages, 'current_page': current_page});
+    res.render('frontend/products', { title: 'products' ,products: rows, categories: rows2,  'total_pages': total_pages, 'current_page': current_page});
 } 
 /**
      * denne fuktion renderer en template med de produkter som har en specifik kategori
@@ -81,7 +82,7 @@ exports.getfroendproductswithcategorie = async function(req, res, next){
     ON images.fk_product = products.id AND images.primary = 1 WHERE fk_categories =  :categorieid`;
     const [rows] =  await db.query(productssql, {categorieid: req.params.categorieid});
     const [rows2] = await db.query(categoriessql);
-    res.render('products', { title: 'products' ,products: rows, categories: rows2});
+    res.render('frontend/products', { title: 'products' ,products: rows, categories: rows2});
 }
 /**
      * denne fuktion renderer en template med de produkter hvor der er valgt det enkelt produkt id kommer fra et link fra /produkter og bliver hentet fra URL´ en med req.params.id
@@ -111,7 +112,7 @@ exports.singelproduct = async function(req, res, next){
 
     const [outerProducts] = await db.query(outerProductsql, {outerProduct: product[0].fk_categories, currentproductid: req.params.id});
 
-    res.render('singelproduct', { title: 'enkel product' ,product: product[0], images, outerProducts});
+    res.render('frontend/singelproduct', { title: 'enkel product' ,product: product[0], images, outerProducts});
 }
 /**
      * til at starte med kan man kun se formen på siden hvis man bare klikker søg uden at have skrevet noget så vil man få vist alle produkter men hvis man skriver noget i felterne vid deres søgeresultat blive sendt med ud på siden  
@@ -135,7 +136,7 @@ exports.productsearch = async function(req, res, next){
     let values = req.query;
     // her tjækker jeg om req.query er = 0 for at når man kommer inde på siden at den ikke viser produkteren
     if(Object.keys(req.query).length == 0){
-        res.render('soeg', {categories, values});
+        res.render('frontend/soeg', {categories, values});
     }else{
        // start grund sql sætningen, den kan hente samtlige produkter
         let sql_query = `
@@ -172,10 +173,10 @@ exports.productsearch = async function(req, res, next){
         }
         // her kør jeg sql og sql_params og send det med over til template filen 
         const [searchs] =  await db.query(sql_query, sql_params);
-        res.render('soeg',{'searchs': searchs, categories,  values});
+        res.render('frontend/soeg',{'searchs': searchs, categories,  values});
     }
 }
-
+/* froend controller end */
 
 /**
  * @module controler/getproductform

@@ -10,5 +10,5 @@
 */
 exports.about = function (req, res, next){
    
-    res.render('about', { "title": 'hej about', "content": 'kaffepause' });
+    res.render('frontend/about', { "title": 'hej about', "content": 'kaffepause' });
 }; 
