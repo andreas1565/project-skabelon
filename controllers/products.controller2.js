@@ -55,7 +55,7 @@ const {join} = require('path');
     // hent de produkter der hører til den side der skal vises
     // LIMIT har to værdier, den første er hvor meget der skal springes over
     // den anden er hvor mange der skal hentes
-    const categoriessql = `SELECT id, name FROM test3.categories`;
+    const categoriessql = `SELECT id, name FROM .categories`;
     const productssql  = `SELECT  images.name AS imagesname, products.name AS productsname, products.id AS productsid, products.fk_categories  
     FROM products
     LEFT OUTER JOIN images
@@ -75,7 +75,7 @@ const {join} = require('path');
      * @param {Function} next er en Function callback 
 */
 exports.getfroendproductswithcategorie = async function(req, res, next){
-    const categoriessql = `SELECT id, name FROM test3.categories `;
+    const categoriessql = `SELECT id, name FROM categories `;
     const productssql  = `SELECT  images.name AS imagesname, products.name AS productsname, products.id AS productsid, products.fk_categories  
     FROM products
     LEFT OUTER JOIN images
@@ -300,7 +300,7 @@ exports.createproducts = async function(req, res, next){
 
 exports.getproducts = async function (req, res, next){
     try {
-        const productssql =  `SELECT products.id, products.name, products.description, products.price, products.weight, products.amount, categories.name as categoriesname FROM test3.products
+        const productssql =  `SELECT products.id, products.name, products.description, products.price, products.weight, products.amount, categories.name as categoriesname FROM products
         INNER JOIN categories
         ON fk_categories = categories.id`;
         const [rows, fieilds ] = await  db.query(productssql);
@@ -323,9 +323,9 @@ exports.getproducts = async function (req, res, next){
 */
 exports.showproductsform = async function(req, res, next){
     try {
-        const productssql =  `SELECT products.id, products.name, products.description,  products.price, products.weight, products.amount, fk_categories FROM test3.products
+        const productssql =  `SELECT products.id, products.name, products.description,  products.price, products.weight, products.amount, fk_categories FROM products
         WHERE id = :id`;
-        const categoriesql = `SELECT id,name FROM test3.categories`
+        const categoriesql = `SELECT id,name FROM categories`
         const [rows, fieilds] = await db.query(productssql, { id: req.params.id });
         const [rows2, fieilds2] = await db.query(categoriesql);
         res.render('dashboard/editproduct', { product: rows[0], categories: rows2}); 
@@ -399,7 +399,7 @@ exports.editproducts = async  function(req, res, next){
         success = false;
     }
     if(success !== true){
-        const productssql =  `SELECT products.id, products.name, products.description, products.price, products.weight, products.amount, fk_categories FROM test3.products
+        const productssql =  `SELECT products.id, products.name, products.description, products.price, products.weight, products.amount, fk_categories FROM products
         WHERE id = :id`;
         const categoriesql = `SELECT id,name FROM test3.categories`
         const [rows, fieilds] = await db.query(productssql, { id: req.params.id });
@@ -439,7 +439,7 @@ exports.editproductsimage = async function(req, res, next){
         errorMessage = 'filen må max fulde 2mb';
     }
     if(success !== true){
-        const productssql =  `SELECT products.id, products.name, products.description, products.price, products.weight, products.amount, fk_categories FROM test3.products
+        const productssql =  `SELECT products.id, products.name, products.description, products.price, products.weight, products.amount, fk_categories FROM products
         WHERE id = :id`;
         const categoriesql = `SELECT id,name FROM test3.categories`
         const [rows, fieilds] = await db.query(productssql, { id: req.params.id });

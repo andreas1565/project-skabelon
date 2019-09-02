@@ -180,7 +180,7 @@ exports.getproducts = async function (req, res, next){
 */
 exports.showproductsform = async function(req, res, next){
     try {
-        const productssql =  `SELECT products.id, products.name, products.description, products.image,  products.price, products.weight, products.amount, fk_categories FROM test3.products
+        const productssql =  `SELECT products.id, products.name, products.description, products.image,  products.price, products.weight, products.amount, fk_categories FROM products
         WHERE id = :id`;
         const categoriesql = `SELECT id,name FROM test3.categories`
         const [rows, fieilds] = await db.query(productssql, { id: req.params.id });
@@ -259,7 +259,7 @@ exports.editproducts = async  function(req, res, next){
         success = false;
     }
     if(success !== true){
-        const productssql =  `SELECT products.id, products.name, products.description, products.price, products.weight, products.amount, fk_categories FROM test3.products
+        const productssql =  `SELECT products.id, products.name, products.description, products.price, products.weight, products.amount, fk_categories FROM products
         WHERE id = :id`;
         const categoriesql = `SELECT id,name FROM test3.categories`
         const [rows, fieilds] = await db.query(productssql, { id: req.params.id });

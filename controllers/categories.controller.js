@@ -81,7 +81,7 @@ exports.createcategorie = async function(req, res ,next) {
 
 exports.getcategorie = async function(req, res, next){
     try {
-     const categoriesql = `SELECT id, name, description FROM test3.categories`
+     const categoriesql = `SELECT id, name, description FROM categories`
      const [rows, fieilds] = await db.query(categoriesql);
      res.render('dashboard/categorie', {categories: rows}); 
     } catch (error) {
